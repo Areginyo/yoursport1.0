@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "482190568114",
+    "project_id": "yoursportlogreg",
+    "storage_bucket": "yoursportlogreg.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482190568114:android:48b0bcd6b920929a7df7ab",
+        "android_client_info": {
+          "package_name": "areg.zakaryan.yoursport"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMhxoZi0FXQl0a0wDY6FY6Vp-fbIv6UxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

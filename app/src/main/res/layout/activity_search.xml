@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#181818"
+    android:weightSum="1">
+
+    <!-- TOP LIME STRIPE -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#AAFF00" />
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:paddingTop="44dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="2dp"
+                android:background="#AAFF00"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FOOTBALL"
+                android:textColor="#AAFF00"
+                android:textSize="10sp"
+                android:letterSpacing="0.28" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FOLLOW"
+                android:textColor="#F0F0F0"
+                android:textSize="42sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" YOUR"
+                android:textColor="#AAFF00"
+                android:textSize="42sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- SEARCH BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="#222222"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:layout_marginEnd="10dp" />
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:hint="League, team, player..."
+            android:textColor="#F0F0F0"
+            android:textColorHint="#555555"
+            android:textSize="15sp"
+            android:background="@null"
+            android:imeOptions="actionSearch"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <!-- RESULTS -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSearch"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:clipToPadding="false" />
+
+    <!-- CONTINUE BUTTON -->
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:text="CONTINUE  →"
+        android:textColor="#111111"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.18"
+        android:backgroundTint="#AAFF00"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone" />
+
+</LinearLayout>

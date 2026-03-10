@@ -1,0 +1,324 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#181818"
+    android:fillViewport="true"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TOP LIME STRIPE -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#AAFF00" />
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:paddingTop="44dp"
+            android:paddingBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp">
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="2dp"
+                    android:background="#AAFF00"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PICK YOUR SPORT"
+                    android:textColor="#AAFF00"
+                    android:fontFamily="@font/font_oswald_bold"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.28" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtSportChoiceSch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SPORT\nCHOICE"
+                android:textColor="#F0F0F0"
+                android:textSize="52sp"
+                android:fontFamily="@font/font_oswald_bold"
+                android:textStyle="bold"
+                android:lineSpacingMultiplier="0.92"
+                android:letterSpacing="-0.02" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="8dp">
+
+                <View
+                    android:layout_width="36dp"
+                    android:layout_height="3dp"
+                    android:background="#AAFF00"
+                    android:layout_marginEnd="10dp" />
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="3dp"
+                    android:background="#AAFF00" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- SPORT LIST -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:paddingTop="8dp">
+
+            <!-- Football row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#202020"
+                android:paddingStart="0dp"
+                android:paddingEnd="18dp"
+                android:layout_marginBottom="8dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#AAFF00"
+                    android:layout_marginEnd="16dp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_football"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="FOOTBALL"
+                    android:textColor="#F0F0F0"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/font_oswald_bold"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06" />
+
+                <CheckBox
+                    android:id="@+id/checkboxFootballSch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:buttonTint="#AAFF00" />
+            </LinearLayout>
+
+            <!-- UFC row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#202020"
+                android:paddingStart="0dp"
+                android:paddingEnd="18dp"
+                android:layout_marginBottom="8dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#AAFF00"
+                    android:layout_marginEnd="16dp" />
+
+                <ImageView
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    android:src="@drawable/ic_ufc_1"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="UFC"
+                    android:textColor="#F0F0F0"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/font_oswald_bold"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06" />
+
+                <CheckBox
+                    android:id="@+id/checkboxUFCSch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:buttonTint="#AAFF00" />
+            </LinearLayout>
+
+            <!-- Basketball row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#202020"
+                android:paddingStart="0dp"
+                android:paddingEnd="18dp"
+                android:layout_marginBottom="8dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#AAFF00"
+                    android:layout_marginEnd="16dp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_basketball"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="BASKETBALL"
+                    android:textColor="#F0F0F0"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/font_oswald_bold"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06" />
+
+                <CheckBox
+                    android:id="@+id/checkboxBasketballSch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:buttonTint="#AAFF00" />
+            </LinearLayout>
+
+            <!-- Formula 1 row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#202020"
+                android:paddingStart="0dp"
+                android:paddingEnd="18dp"
+                android:layout_marginBottom="8dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#AAFF00"
+                    android:layout_marginEnd="16dp" />
+
+                <ImageView
+                    android:layout_width="29dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_formula1_1"
+                    android:scaleType="fitXY"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="FORMULA 1"
+                    android:textColor="#F0F0F0"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/font_oswald_bold"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06" />
+
+                <CheckBox
+                    android:id="@+id/checkboxFormula1Sch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:buttonTint="#AAFF00" />
+            </LinearLayout>
+
+            <!-- Tennis row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#202020"
+                android:paddingStart="0dp"
+                android:paddingEnd="18dp"
+                android:layout_marginBottom="36dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#AAFF00"
+                    android:layout_marginEnd="16dp" />
+
+                <ImageView
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    android:src="@drawable/ic_tennis"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TENNIS"
+                    android:textColor="#F0F0F0"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/font_oswald_bold"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06" />
+
+                <CheckBox
+                    android:id="@+id/checkboxTennisSch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:buttonTint="#AAFF00" />
+            </LinearLayout>
+
+            <!-- CHOOSE Button -->
+            <Button
+                android:id="@+id/btnChoose"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:text="CHOOSE  →"
+                android:textColor="#111111"
+                android:fontFamily="@font/font_oswald_bold"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.18"
+                android:backgroundTint="#AAFF00"
+                android:layout_marginBottom="40dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
