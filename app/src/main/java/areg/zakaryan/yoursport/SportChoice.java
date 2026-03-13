@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class SportChoice extends AppCompatActivity {
 
     private CheckBox cbFootball, cbUFC, cbBasketball, cbFormula1, cbTennis;
@@ -29,15 +31,14 @@ public class SportChoice extends AppCompatActivity {
             return insets;
         });
 
-        cbFootball   = findViewById(R.id.checkboxFootballSch);
-        cbUFC        = findViewById(R.id.checkboxUFCSch);
+        cbFootball = findViewById(R.id.checkboxFootballSch);
+        cbUFC = findViewById(R.id.checkboxUFCSch);
         cbBasketball = findViewById(R.id.checkboxBasketballSch);
-        cbFormula1   = findViewById(R.id.checkboxFormula1Sch);
-        cbTennis     = findViewById(R.id.checkboxTennisSch);
-        btnChoose    = findViewById(R.id.btnChoose);
+        cbFormula1 = findViewById(R.id.checkboxFormula1Sch);
+        cbTennis = findViewById(R.id.checkboxTennisSch);
+        btnChoose = findViewById(R.id.btnChoose);
 
         btnChoose.setOnClickListener(v -> {
-            // Проверяем что выбран хотя бы один спорт
             if (!cbFootball.isChecked() && !cbUFC.isChecked() &&
                     !cbBasketball.isChecked() && !cbFormula1.isChecked() &&
                     !cbTennis.isChecked()) {
@@ -45,15 +46,16 @@ public class SportChoice extends AppCompatActivity {
                 return;
             }
 
-            // Если выбран Football — переходим на поиск
-            if (cbFootball.isChecked()) {
-                Intent intent = new Intent(SportChoice.this, SearchActivity.class);
-                intent.putExtra("sport", "football");
-                startActivity(intent);
-            } else {
-                // Для остальных спортов пока заглушка
-                Toast.makeText(this, "Coming soon!", Toast.LENGTH_SHORT).show();
-            }
+            ArrayList<String> selectedSports = new ArrayList<>();
+            if (cbFootball.isChecked()) selectedSports.add("Football");
+            if (cbUFC.isChecked()) selectedSports.add("UFC");
+            if (cbBasketball.isChecked()) selectedSports.add("Basketball");
+            if (cbFormula1.isChecked()) selectedSports.add("Formula 1");
+            if (cbTennis.isChecked()) selectedSports.add("Tennis");
+
+            Intent intent = new Intent(SportChoice.this, SearchActivity.class);
+            intent.putStringArrayListExtra("selected_sports", selectedSports);
+            startActivity(intent);
         });
     }
 }

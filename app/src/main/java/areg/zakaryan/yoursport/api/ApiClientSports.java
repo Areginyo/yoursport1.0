@@ -1,15 +1,13 @@
 package areg.zakaryan.yoursport.api;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient {
+public class ApiClientSports {
 
-    private static final String BASE_URL = "https://api.football-data.org/v4/";
-    private static final String API_KEY  = "e9992eda34d4471b954b26f991aed4af";
+    private static final String BASE_URL = "https://www.thesportsdb.com/api/v1/json/3/";
 
     private static Retrofit retrofit = null;
 
@@ -20,12 +18,6 @@ public class ApiClient {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(chain -> {
-                        Request request = chain.request().newBuilder()
-                                .addHeader("X-Auth-Token", API_KEY)
-                                .build();
-                        return chain.proceed(request);
-                    })
                     .addInterceptor(logging)
                     .build();
 
@@ -38,7 +30,7 @@ public class ApiClient {
         return retrofit;
     }
 
-    public static ApiService getApiService() {
-        return getClient().create(ApiService.class);
+    public static ApiServiceSports getApiService() {
+        return getClient().create(ApiServiceSports.class);
     }
 }

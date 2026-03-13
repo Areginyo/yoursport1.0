@@ -12,27 +12,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import areg.zakaryan.yoursport.model.SearchItem;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<SearchItem> items = new ArrayList<>();
-    private List<SearchItem> selectedItems = new ArrayList<>();
-    private OnSelectionChanged listener;
+    private List<SearchItem> items = List.of();
+    private final List<SearchItem> selectedItems; // ссылка на список из Activity
+    private final OnItemClickListener listener;
 
-    public interface OnSelectionChanged {
-        void onChange(List<SearchItem> selected);
+    public interface OnItemClickListener {
+        void onItemClicked(SearchItem item);
     }
 
-    public SearchAdapter(OnSelectionChanged listener) {
+    public SearchAdapter(List<SearchItem> selectedItems, OnItemClickListener listener) {
+        this.selectedItems = selectedItems;
         this.listener = listener;
     }
 
     public void setItems(List<SearchItem> newItems) {
-        this.items = newItems;
+        this.items = newItems != null ? new java.util.ArrayList<>(newItems) : new java.util.ArrayList<>();
         notifyDataSetChanged();
     }
 
@@ -47,38 +47,39 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == SearchItem.TYPE_HEADER) {
             View v = inflater.inflate(R.layout.item_search_header, parent, false);
-            return new HeaderVH(v);
+            return new HeaderViewHolder(v);
         } else {
             View v = inflater.inflate(R.layout.item_search, parent, false);
-            return new ItemVH(v);
+            return new ItemViewHolder(v);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         SearchItem item = items.get(position);
-        if (holder instanceof HeaderVH) {
-            ((HeaderVH) holder).txtHeader.setText(item.title);
-        } else {
-            ItemVH vh = (ItemVH) holder;
+
+        if (holder instanceof HeaderViewHolder vh) {
+            vh.txtHeader.setText(item.title);
+        } else if (holder instanceof ItemViewHolder vh) {
             vh.txtTitle.setText(item.title);
-            vh.txtSubtitle.setText(item.subtitle);
-            vh.checkbox.setChecked(selectedItems.contains(item));
+            vh.txtSubtitle.setText(item.subtitle != null ? item.subtitle : "");
+
+            boolean isSelected = selectedItems.contains(item);
+            vh.checkbox.setChecked(isSelected);
 
             if (item.logoUrl != null && !item.logoUrl.isEmpty()) {
-                Glide.with(vh.imgLogo.getContext())
+                Glide.with(vh.imgLogo)
                         .load(item.logoUrl)
+                        .placeholder(android.R.drawable.ic_menu_gallery)
+                        .error(android.R.drawable.ic_menu_close_clear_cancel)
                         .into(vh.imgLogo);
+            } else {
+                vh.imgLogo.setImageResource(android.R.drawable.ic_menu_gallery);
             }
 
             vh.itemRoot.setOnClickListener(v -> {
-                if (selectedItems.contains(item)) {
-                    selectedItems.remove(item);
-                } else {
-                    selectedItems.add(item);
-                }
-                vh.checkbox.setChecked(selectedItems.contains(item));
-                listener.onChange(selectedItems);
+                listener.onItemClicked(item);
+                notifyItemChanged(position);
             });
         }
     }
@@ -88,26 +89,28 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return items.size();
     }
 
-    static class HeaderVH extends RecyclerView.ViewHolder {
+    static class HeaderViewHolder extends RecyclerView.ViewHolder {
         TextView txtHeader;
-        HeaderVH(View v) {
-            super(v);
-            txtHeader = v.findViewById(R.id.txtHeader);
+
+        HeaderViewHolder(View itemView) {
+            super(itemView);
+            txtHeader = itemView.findViewById(R.id.txtHeader);
         }
     }
 
-    static class ItemVH extends RecyclerView.ViewHolder {
-        View      itemRoot;
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
+        View itemRoot;
         ImageView imgLogo;
-        TextView  txtTitle, txtSubtitle;
-        CheckBox  checkbox;
-        ItemVH(View v) {
-            super(v);
-            itemRoot   = v.findViewById(R.id.itemRoot);
-            imgLogo    = v.findViewById(R.id.imgLogo);
-            txtTitle   = v.findViewById(R.id.txtTitle);
-            txtSubtitle = v.findViewById(R.id.txtSubtitle);
-            checkbox   = v.findViewById(R.id.checkbox);
+        TextView txtTitle, txtSubtitle;
+        CheckBox checkbox;
+
+        ItemViewHolder(View itemView) {
+            super(itemView);
+            itemRoot    = itemView.findViewById(R.id.itemRoot);
+            imgLogo     = itemView.findViewById(R.id.imgLogo);
+            txtTitle    = itemView.findViewById(R.id.txtTitle);
+            txtSubtitle = itemView.findViewById(R.id.txtSubtitle);
+            checkbox    = itemView.findViewById(R.id.checkbox);
         }
     }
 }

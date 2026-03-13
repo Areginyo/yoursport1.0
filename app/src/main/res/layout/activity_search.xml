@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#181818"
-    android:weightSum="1">
+    android:fitsSystemWindows="true">
 
-    <!-- TOP LIME STRIPE -->
+    <!-- TOP LIME STRIPE (акцентная полоса) -->
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
@@ -20,14 +21,14 @@
         android:paddingStart="28dp"
         android:paddingEnd="28dp"
         android:paddingTop="44dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="8dp">
 
             <View
                 android:layout_width="20dp"
@@ -38,9 +39,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FOOTBALL"
+                android:text="Choose"
                 android:textColor="#AAFF00"
                 android:textSize="10sp"
+                android:textAllCaps="true"
                 android:letterSpacing="0.28" />
         </LinearLayout>
 
@@ -55,7 +57,8 @@
                 android:text="FOLLOW"
                 android:textColor="#F0F0F0"
                 android:textSize="42sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:lineHeight="48sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,42 +66,51 @@
                 android:text=" YOUR"
                 android:textColor="#AAFF00"
                 android:textSize="42sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:lineHeight="48sp" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <!-- SEARCH BAR -->
-    <LinearLayout
+    <!-- SEARCH BAR (лучше с TextInputLayout для Material 3) -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:background="#222222"
         android:layout_marginStart="28dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="#222222"
+        app:boxStrokeColor="#444444"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:hintTextColor="#777777"
+        app:startIconDrawable="@android:drawable/ic_menu_search"
+        app:startIconTint="#AAFF00">
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@android:drawable/ic_menu_search"
-            android:layout_marginEnd="10dp" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtSearch"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:hint="League, team, player..."
             android:textColor="#F0F0F0"
-            android:textColorHint="#555555"
-            android:textSize="15sp"
-            android:background="@null"
+            android:textColorHint="#777777"
+            android:textSize="16sp"
             android:imeOptions="actionSearch"
-            android:inputType="text" />
-    </LinearLayout>
+            android:inputType="text"
+            android:background="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- ProgressBar для загрузки (лиги/команды/игроки) -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:indeterminateTint="#AAFF00" />
 
     <!-- RESULTS -->
     <androidx.recyclerview.widget.RecyclerView
@@ -108,23 +120,28 @@
         android:layout_weight="1"
         android:paddingStart="28dp"
         android:paddingEnd="28dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
-    <!-- CONTINUE BUTTON -->
-    <Button
+    <!-- CONTINUE BUTTON (MaterialButton) -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnContinue"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:text="CONTINUE  →"
-        android:textColor="#111111"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.18"
-        android:backgroundTint="#AAFF00"
+        android:layout_height="56dp"
         android:layout_marginStart="28dp"
         android:layout_marginEnd="28dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="32dp"
-        android:layout_marginTop="12dp"
+        android:text="CONTINUE →"
+        android:textColor="#111111"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.18"
+        app:backgroundTint="#AAFF00"
+        app:cornerRadius="12dp"
+        app:icon="@android:drawable/ic_menu_send"
+        app:iconGravity="end"
+        app:iconPadding="8dp"
         android:visibility="gone" />
 
 </LinearLayout>

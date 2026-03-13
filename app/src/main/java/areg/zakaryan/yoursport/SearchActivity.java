@@ -1,5 +1,6 @@
 package areg.zakaryan.yoursport;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import areg.zakaryan.yoursport.api.ApiClient;
+import areg.zakaryan.yoursport.api.ApiClientSports;
 import areg.zakaryan.yoursport.model.SearchItem;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,13 +33,21 @@ import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private EditText      edtSearch;
-    private RecyclerView  recycler;
-    private Button        btnContinue;
+    private EditText edtSearch;
+    private RecyclerView recycler;
+    private Button btnContinue;
+    private ProgressBar progressBar;
+
     private SearchAdapter adapter;
 
-    private final Handler  searchHandler  = new Handler();
-    private       Runnable searchRunnable;
+    private final List<SearchItem> allLeagues = new ArrayList<>();
+    private final List<SearchItem> allTeams = new ArrayList<>();
+
+    private final Handler searchHandler = new Handler();
+    private Runnable searchRunnable;
+
+    private ArrayList<String> selectedSports = new ArrayList<>();
+    private final ArrayList<SearchItem> selectedItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,155 +61,366 @@ public class SearchActivity extends AppCompatActivity {
             return insets;
         });
 
-        edtSearch   = findViewById(R.id.edtSearch);
-        recycler    = findViewById(R.id.recyclerSearch);
+        edtSearch = findViewById(R.id.edtSearch);
+        recycler = findViewById(R.id.recyclerSearch);
         btnContinue = findViewById(R.id.btnContinue);
+        progressBar = findViewById(R.id.progressBar);
 
-        adapter = new SearchAdapter(selected -> {
-            btnContinue.setVisibility(selected.isEmpty() ? View.GONE : View.VISIBLE);
+        selectedSports = getIntent().getStringArrayListExtra("selected_sports");
+        if (selectedSports == null || selectedSports.isEmpty()) {
+            selectedSports = new ArrayList<>();
+            selectedSports.add("Football");
+        }
+
+        adapter = new SearchAdapter(selectedItems, item -> {
+            if (selectedItems.contains(item)) {
+                selectedItems.remove(item);
+            } else {
+                selectedItems.add(item);
+            }
+            btnContinue.setVisibility(selectedItems.isEmpty() ? View.GONE : View.VISIBLE);
         });
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
         recycler.setAdapter(adapter);
 
+        btnContinue.setVisibility(View.GONE);
+
+        loadInitialData();
+
         edtSearch.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchHandler.removeCallbacks(searchRunnable);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (searchRunnable != null) searchHandler.removeCallbacks(searchRunnable);
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 String query = s.toString().trim();
-                if (query.length() >= 4) {
-                    searchRunnable = () -> searchAll(query);
-                    searchHandler.postDelayed(searchRunnable, 1000);
+                if (query.length() >= 3) {
+                    searchRunnable = () -> performSearch(query);
+                    searchHandler.postDelayed(searchRunnable, 500);
                 } else {
-                    adapter.setItems(new ArrayList<>());
+                    showInitialList();
                 }
             }
         });
 
         btnContinue.setOnClickListener(v -> {
-            // Navigate to home screen (coming soon)
+            if (selectedItems.isEmpty()) {
+                Toast.makeText(this, "Select at least one item", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
+            intent.putParcelableArrayListExtra("selected_items", selectedItems);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 
-    private void searchAll(String query) {
+    private void loadInitialData() {
+        progressBar.setVisibility(View.VISIBLE);
+
+        if (selectedSports.contains("Football")) {
+            loadFootballLeagues();
+        }
+
+        if (selectedSports.contains("Basketball")) {
+            loadSportsDbTeams("NBA");
+        }
+
+        if (selectedSports.contains("Formula 1")) {
+            loadSportsDbTeams("Formula 1");
+        }
+    }
+
+    private void loadFootballLeagues() {
+        ApiClient.getApiService().getCompetitions().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    Log.e("Search", "Failed to load leagues");
+                    runOnUiThread(() -> progressBar.setVisibility(View.GONE));
+                    return;
+                }
+
+                try {
+                    Map<String, Object> body = (Map<String, Object>) response.body();
+                    List<Map<String, Object>> competitions = (List<Map<String, Object>>) body.get("competitions");
+
+                    List<String> leagueCodes = new ArrayList<>();
+
+                    if (competitions != null) {
+                        for (Map<String, Object> comp : competitions) {
+                            Number idNum = (Number) comp.get("id");
+                            int id = idNum != null ? idNum.intValue() : 0;
+                            String name = (String) comp.get("name");
+                            String code = (String) comp.get("code");
+                            String emblem = (String) comp.get("emblem");
+
+                            Map<String, Object> area = (Map<String, Object>) comp.get("area");
+                            String country = area != null ? (String) area.get("name") : "";
+
+                            allLeagues.add(new SearchItem(
+                                    SearchItem.TYPE_ITEM,
+                                    name,
+                                    country,
+                                    emblem,
+                                    id,
+                                    "league"
+                            ));
+
+                            if (code != null && !code.isEmpty()) {
+                                leagueCodes.add(code);
+                            }
+                        }
+                    }
+
+                    loadTeamsForLeagues(leagueCodes, 0);
+
+                } catch (Exception e) {
+                    Log.e("Search", "Leagues parsing error", e);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("Search", "Leagues network error", t);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void loadTeamsForLeagues(List<String> codes, int index) {
+        if (index >= codes.size()) {
+            showInitialList();
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+
+        String code = codes.get(index);
+
+        ApiClient.getApiService().getTeamsByLeague(code).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        Map<String, Object> body = (Map<String, Object>) response.body();
+                        List<Map<String, Object>> teams = (List<Map<String, Object>>) body.get("teams");
+
+                        if (teams != null) {
+                            for (Map<String, Object> team : teams) {
+                                Number idNum = (Number) team.get("id");
+                                int id = idNum != null ? idNum.intValue() : 0;
+                                String name = (String) team.get("name");
+                                String crest = (String) team.get("crest");
+
+                                Map<String, Object> area = (Map<String, Object>) team.get("area");
+                                String country = area != null ? (String) area.get("name") : "";
+
+                                boolean exists = allTeams.stream().anyMatch(t -> t.id == id);
+                                if (!exists && id > 0) {
+                                    allTeams.add(new SearchItem(
+                                            SearchItem.TYPE_ITEM,
+                                            name,
+                                            country,
+                                            crest,
+                                            id,
+                                            "team"
+                                    ));
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("Search", "Teams parsing error", e);
+                    }
+                }
+                loadTeamsForLeagues(codes, index + 1);
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                loadTeamsForLeagues(codes, index + 1);
+            }
+        });
+    }
+
+    private void loadSportsDbTeams(String leagueName) {
+        ApiClientSports.getApiService().getAllTeams(leagueName).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        Map<String, Object> body = (Map<String, Object>) response.body();
+                        List<Map<String, Object>> teams = (List<Map<String, Object>>) body.get("teams");
+
+                        if (teams != null) {
+                            for (Map<String, Object> team : teams) {
+                                String idStr = (String) team.get("idTeam");
+                                int id = idStr != null ? Integer.parseInt(idStr) : 0;
+                                if (id == 0) continue;
+
+                                String name = (String) team.get("strTeam");
+                                String badge = (String) team.get("strBadge");
+                                String country = (String) team.get("strCountry");
+
+                                if (allTeams.stream().noneMatch(t -> t.id == id)) {
+                                    allTeams.add(new SearchItem(
+                                            SearchItem.TYPE_ITEM,
+                                            name,
+                                            country,
+                                            badge,
+                                            id,
+                                            "team"
+                                    ));
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("Search", "SportsDB parsing error", e);
+                    }
+                }
+                showInitialList();
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                showInitialList();
+            }
+        });
+    }
+
+    private void performSearch(String query) {
+        progressBar.setVisibility(View.VISIBLE);
+
+        String lowerQuery = query.toLowerCase();
         List<SearchItem> results = new ArrayList<>();
 
-        ApiClient.getApiService().getLeagues(query)
-                .enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            try {
-                                Map body = (Map) response.body();
-                                List list = (List) body.get("response");
-                                if (list != null && !list.isEmpty()) {
-                                    results.add(new SearchItem("LEAGUES"));
-                                    for (Object obj : list) {
-                                        Map item   = (Map) obj;
-                                        Map league = (Map) item.get("league");
-                                        if (league != null) {
-                                            int    id   = ((Double) league.get("id")).intValue();
-                                            String name = (String) league.get("name");
-                                            String logo = (String) league.get("logo");
-                                            String type = (String) league.get("type");
-                                            results.add(new SearchItem(
-                                                    SearchItem.TYPE_ITEM, name, type, logo, id, "league"
-                                            ));
-                                        }
-                                    }
+        // Leagues
+        List<SearchItem> filteredLeagues = new ArrayList<>();
+        for (SearchItem item : allLeagues) {
+            if (item.title != null && item.title.toLowerCase().contains(lowerQuery)) {
+                filteredLeagues.add(item);
+            }
+        }
+        if (!filteredLeagues.isEmpty()) {
+            results.add(new SearchItem("LEAGUES"));
+            results.addAll(filteredLeagues);
+        }
+
+        // Teams
+        List<SearchItem> filteredTeams = new ArrayList<>();
+        for (SearchItem item : allTeams) {
+            if (item.title != null && item.title.toLowerCase().contains(lowerQuery)) {
+                filteredTeams.add(item);
+            }
+        }
+        if (!filteredTeams.isEmpty()) {
+            results.add(new SearchItem("TEAMS"));
+            results.addAll(filteredTeams);
+        }
+
+        // Players via TheSportsDB
+        ApiClientSports.getApiService().searchPlayers(query).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                List<SearchItem> players = new ArrayList<>();
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        Map<String, Object> body = (Map<String, Object>) response.body();
+                        List<Map<String, Object>> playerList = (List<Map<String, Object>>) body.get("player");
+
+                        if (playerList != null) {
+                            for (Map<String, Object> player : playerList) {
+                                String sport = (String) player.get("strSport");
+                                String appSport = getAppSportName(sport);
+
+                                if (selectedSports.contains(appSport)) {
+                                    String idStr = (String) player.get("idPlayer");
+                                    int id = idStr != null ? Integer.parseInt(idStr) : 0;
+                                    if (id == 0) continue;
+
+                                    String name = (String) player.get("strPlayer");
+                                    String photo = (String) player.get("strThumb");
+                                    String nationality = (String) player.get("strNationality");
+
+                                    players.add(new SearchItem(
+                                            SearchItem.TYPE_ITEM,
+                                            name,
+                                            nationality,
+                                            photo,
+                                            id,
+                                            "player"
+                                    ));
                                 }
-                            } catch (Exception e) {
-                                Log.e("SEARCH", "Leagues error: " + e.getMessage());
                             }
                         }
-                        searchTeams(query, results);
+                    } catch (Exception e) {
+                        Log.e("Search", "Players parsing error", e);
                     }
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-                        Log.e("SEARCH", "Leagues failure: " + t.getMessage());
-                        searchTeams(query, results);
-                    }
+                }
+
+                if (!players.isEmpty()) {
+                    results.add(new SearchItem("PLAYERS"));
+                    results.addAll(players);
+                }
+
+                runOnUiThread(() -> {
+                    adapter.setItems(results);
+                    progressBar.setVisibility(View.GONE);
                 });
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                runOnUiThread(() -> {
+                    adapter.setItems(results);
+                    progressBar.setVisibility(View.GONE);
+                });
+            }
+        });
     }
 
-    private void searchTeams(String query, List<SearchItem> results) {
-        ApiClient.getApiService().getTeamsByName(query)
-                .enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            try {
-                                Map body = (Map) response.body();
-                                List list = (List) body.get("response");
-                                if (list != null && !list.isEmpty()) {
-                                    results.add(new SearchItem("TEAMS"));
-                                    for (Object obj : list) {
-                                        Map item = (Map) obj;
-                                        Map team = (Map) item.get("team");
-                                        if (team != null) {
-                                            int    id      = ((Double) team.get("id")).intValue();
-                                            String name    = (String) team.get("name");
-                                            String logo    = (String) team.get("logo");
-                                            String country = (String) team.get("country");
-                                            results.add(new SearchItem(
-                                                    SearchItem.TYPE_ITEM, name, country, logo, id, "team"
-                                            ));
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                Log.e("SEARCH", "Teams error: " + e.getMessage());
-                            }
-                        }
-                        searchPlayers(query, results);
-                    }
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-                        Log.e("SEARCH", "Teams failure: " + t.getMessage());
-                        searchPlayers(query, results);
-                    }
-                });
+    private void showInitialList() {
+        List<SearchItem> list = new ArrayList<>();
+
+        if (!allLeagues.isEmpty()) {
+            list.add(new SearchItem("LEAGUES"));
+            list.addAll(allLeagues.subList(0, Math.min(10, allLeagues.size())));
+        }
+
+        if (!allTeams.isEmpty()) {
+            list.add(new SearchItem("TEAMS"));
+            list.addAll(allTeams.subList(0, Math.min(20, allTeams.size())));
+        }
+
+        adapter.setItems(list);
+        progressBar.setVisibility(View.GONE);
     }
 
-    private void searchPlayers(String query, List<SearchItem> results) {
-        ApiClient.getApiService().getPlayersByName(query, 2024)
-                .enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            try {
-                                Map body = (Map) response.body();
-                                List list = (List) body.get("response");
-                                if (list != null && !list.isEmpty()) {
-                                    results.add(new SearchItem("PLAYERS"));
-                                    for (Object obj : list) {
-                                        Map item   = (Map) obj;
-                                        Map player = (Map) item.get("player");
-                                        if (player != null) {
-                                            int    id          = ((Double) player.get("id")).intValue();
-                                            String name        = (String) player.get("name");
-                                            String photo       = (String) player.get("photo");
-                                            String nationality = (String) player.get("nationality");
-                                            results.add(new SearchItem(
-                                                    SearchItem.TYPE_ITEM, name, nationality, photo, id, "player"
-                                            ));
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                Log.e("SEARCH", "Players error: " + e.getMessage());
-                            }
-                        }
-                        runOnUiThread(() -> adapter.setItems(results));
-                    }
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-                        Log.e("SEARCH", "Players failure: " + t.getMessage());
-                        runOnUiThread(() -> adapter.setItems(results));
-                    }
-                });
+    private String getAppSportName(String sportsDbSport) {
+        if (sportsDbSport == null) return "";
+
+        switch (sportsDbSport) {
+            case "Soccer":
+                return "Football";
+            case "MMA":
+            case "Fighting":
+                return "UFC";
+            case "Motorsport":
+                return "Formula 1";
+            case "Basketball":
+                return "Basketball";
+            case "Tennis":
+                return "Tennis";
+            default:
+                return "";
+        }
     }
 }

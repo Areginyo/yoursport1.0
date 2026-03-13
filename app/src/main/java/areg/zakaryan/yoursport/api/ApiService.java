@@ -2,22 +2,23 @@ package areg.zakaryan.yoursport.api;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @GET("leagues")
-    Call<Object> getLeagues(@Query("search") String search);
+    // Все лиги
+    @GET("competitions")
+    Call<Object> getCompetitions();
 
-    @GET("teams")
-    Call<Object> getTeamsByName(@Query("search") String search);
+    // Команды по лиге (по коду лиги, например "PL", "BL1")
+    @GET("competitions/{code}/teams")
+    Call<Object> getTeamsByLeague(@Path("code") String leagueCode);
 
-    @GET("players")
-    Call<Object> getPlayersByName(@Query("search") String search,
-                                  @Query("season") int season);
-
-    @GET("fixtures")
-    Call<Object> getFixtures(@Query("date") String date,
-                             @Query("league") int leagueId,
-                             @Query("season") int season);
+    // Матчи (если понадобится позже)
+    @GET("competitions/{code}/matches")
+    Call<Object> getMatches(
+            @Path("code") String leagueCode,
+            @Query("status") String status
+    );
 }
