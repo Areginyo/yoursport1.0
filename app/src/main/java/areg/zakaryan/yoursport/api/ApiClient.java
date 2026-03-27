@@ -38,7 +38,33 @@ public class ApiClient {
         return retrofit;
     }
 
+    private static Retrofit retrofitTheSportsDB;
+
+    private static final String THESPORTSDB_BASE_URL = "https://www.thesportsdb.com/api/v1/json/3/";
+
+    public static TheSportsDBService getTheSportsDBService() {
+        if (retrofitTheSportsDB == null) {
+            retrofitTheSportsDB = new Retrofit.Builder()
+                    .baseUrl(THESPORTSDB_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofitTheSportsDB.create(TheSportsDBService.class);
+    }
+
     public static ApiService getApiService() {
         return getClient().create(ApiService.class);
+    }
+
+    private static Retrofit retrofitNews;
+
+    public static NewsApiService getNewsApiService() {
+        if (retrofitNews == null) {
+            retrofitNews = new Retrofit.Builder()
+                    .baseUrl("https://newsapi.org/v2/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofitNews.create(NewsApiService.class);
     }
 }

@@ -1,26 +1,23 @@
 package areg.zakaryan.yoursport.model;
 
 public class NewsItem {
+    public String id;
+    public String title;
+    public String description;
+    public String date;
+    public String source;
+    public String imageUrl;
+    public String url;
 
-    // Основные поля для новости (можно расширить по мере необходимости)
-    public String title;          // заголовок новости
-    public String description;    // краткое описание / текст
-    public String url;            // ссылка на полную статью
-    public String imageUrl;       // URL картинки (для Glide)
-    public String source;         // источник (BBC, ESPN, Goal.com и т.д.)
-    public String date;           // дата публикации (строка или timestamp)
-    public String category;       // опционально: "football", "ufc" и т.д.
-
-    // Пустой конструктор (нужен для Gson/Retrofit, если будешь парсить JSON)
     public NewsItem() {}
 
-    // Можно добавить конструктор для удобства
-    public NewsItem(String title, String description, String url, String imageUrl, String source, String date) {
+    public NewsItem(String id, String title, String description, String date, String source, String imageUrl, String url) {
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.url = url;
-        this.imageUrl = imageUrl;
-        this.source = source;
         this.date = date;
+        this.source = source;
+        this.imageUrl = imageUrl;
+        this.url = url;
     }
 }

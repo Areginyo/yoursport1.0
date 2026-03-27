@@ -7,19 +7,21 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import areg.zakaryan.yoursport.model.SearchItem;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<SearchItem> items = List.of();
-    private final List<SearchItem> selectedItems; // ссылка на список из Activity
+    private final List<SearchItem> selectedItems;
     private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -32,7 +34,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void setItems(List<SearchItem> newItems) {
-        this.items = newItems != null ? new java.util.ArrayList<>(newItems) : new java.util.ArrayList<>();
+        this.items = newItems != null ? new ArrayList<>(newItems) : new ArrayList<>();
         notifyDataSetChanged();
     }
 
@@ -106,11 +108,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         ItemViewHolder(View itemView) {
             super(itemView);
-            itemRoot    = itemView.findViewById(R.id.itemRoot);
-            imgLogo     = itemView.findViewById(R.id.imgLogo);
-            txtTitle    = itemView.findViewById(R.id.txtTitle);
+            itemRoot = itemView.findViewById(R.id.itemRoot);
+            imgLogo = itemView.findViewById(R.id.imgLogo);
+            txtTitle = itemView.findViewById(R.id.txtTitle);
             txtSubtitle = itemView.findViewById(R.id.txtSubtitle);
-            checkbox    = itemView.findViewById(R.id.checkbox);
+            checkbox = itemView.findViewById(R.id.checkbox);
         }
     }
 }

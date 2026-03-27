@@ -15,95 +15,140 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import areg.zakaryan.yoursport.model.SearchItem;
+import areg.zakaryan.yoursport.api.ApiClient;
 import areg.zakaryan.yoursport.model.NewsItem;
-
-// Предполагаем, что у тебя есть класс NewsItem и адаптер
-// public class NewsItem { String title, description, url, imageUrl, source; ... }
+import areg.zakaryan.yoursport.model.NewsResponse;
+import areg.zakaryan.yoursport.model.SearchItem;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NewsFragment extends Fragment {
 
     private static final String ARG_SELECTED_ITEMS = "selected_items";
+    private static final String ARG_CURRENT_SPORT = "current_sport";
+
+    private ArrayList<SearchItem> selectedItems;
+    private String currentSport;
 
     private RecyclerView rvNews;
-    private TextView tvEmptyOrLoading;
+    private TextView tvEmpty;
 
-    private List<NewsItem> displayedNews = new ArrayList<>();
-    // private NewsAdapter adapter;  // ← твой адаптер
+    private NewsAdapter newsAdapter;
 
-    public static NewsFragment newInstance(ArrayList<SearchItem> selectedItems) {
+    public static NewsFragment newInstance(ArrayList<SearchItem> selectedItems, String currentSport) {
         NewsFragment fragment = new NewsFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARG_SELECTED_ITEMS, selectedItems);
+        args.putString(ARG_CURRENT_SPORT, currentSport);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            selectedItems = getArguments().getParcelableArrayList(ARG_SELECTED_ITEMS);
+            currentSport = getArguments().getString(ARG_CURRENT_SPORT);
+        }
+    }
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         rvNews = view.findViewById(R.id.rv_news);
-        tvEmptyOrLoading = view.findViewById(R.id.tv_empty);
+        tvEmpty = view.findViewById(R.id.tv_empty);
 
         rvNews.setLayoutManager(new LinearLayoutManager(requireContext()));
-        // rvNews.setAdapter(adapter = new NewsAdapter());
 
-        loadNews();
+        newsAdapter = new NewsAdapter();
+        rvNews.setAdapter(newsAdapter);
+
+        loadPersonalizedNews();
 
         return view;
     }
 
-    private void loadNews() {
-        ArrayList<SearchItem> favorites = getArguments() != null ?
-                getArguments().getParcelableArrayList(ARG_SELECTED_ITEMS) : new ArrayList<>();
+    private void loadPersonalizedNews() {
+        tvEmpty.setText("Loading " + currentSport + " news...");
+        tvEmpty.setVisibility(View.VISIBLE);
 
-        tvEmptyOrLoading.setText("Загрузка новостей...");
-        tvEmptyOrLoading.setVisibility(View.VISIBLE);
+        String query = getBaseSportQuery(currentSport);
 
-        // 1. Здесь должен быть реальный fetch (Retrofit / Volley)
-        List<NewsItem> allNews = fetchAllNews(); // ← заглушка или API
-
-        // 2. Фильтрация + приоритет
-        List<NewsItem> priority = new ArrayList<>();
-        List<NewsItem> fallback = new ArrayList<>();
-
-        for (NewsItem news : allNews) {
-            boolean isRelevant = false;
-            String text = (news.title + " " + news.description).toLowerCase();
-
-            for (SearchItem item : favorites) {
-                String key = item.title.toLowerCase();
-                if (text.contains(key)) {
-                    isRelevant = true;
-                    break;
+        // Добавляем только выбранные тобой команды, игроков и лиги
+        if (selectedItems != null && !selectedItems.isEmpty()) {
+            for (SearchItem item : selectedItems) {
+                if (item.title != null && !item.title.isEmpty()) {
+                    if (query.length() > 0) query += " OR ";
+                    query += "\"" + item.title + "\"";
                 }
-            }
-
-            if (isRelevant) {
-                priority.add(news);
-            } else {
-                fallback.add(news);
             }
         }
 
-        displayedNews.clear();
-        displayedNews.addAll(priority);
-        displayedNews.addAll(fallback);
+        String apiKey = "e2c5ad86dd95403c8a9f7e535d1f3d56";
 
-        // adapter.submitList(displayedNews);  // или notifyDataSetChanged()
+        ApiClient.getNewsApiService().getEverything(query, "en", "publishedAt", apiKey)
+                .enqueue(new Callback<NewsResponse>() {
+                    @Override
+                    public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<NewsItem> newsList = convertToNewsItems(response.body());
+                            newsAdapter.submitList(newsList);
 
-        if (displayedNews.isEmpty()) {
-            tvEmptyOrLoading.setText("No news yet");
-        } else {
-            tvEmptyOrLoading.setVisibility(View.GONE);
+                            if (newsList.isEmpty()) {
+                                tvEmpty.setText("No news found for your selection");
+                            } else {
+                                tvEmpty.setVisibility(View.GONE);
+                            }
+                        } else {
+                            tvEmpty.setText("No news found");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NewsResponse> call, Throwable t) {
+                        tvEmpty.setText("Error loading news");
+                    }
+                });
+    }
+
+    // Правильный базовый запрос для каждого спорта
+    private String getBaseSportQuery(String sport) {
+        switch (sport) {
+            case "Football":
+                return "soccer";
+            case "UFC":
+                return "UFC";
+            case "Formula 1":
+                return "\"Formula 1\"";
+            case "Basketball":
+                return "NBA";
+            case "Tennis":
+                return "tennis";
+            default:
+                return sport;
         }
     }
 
-    // Заглушка — замени на реальный запрос
-    private List<NewsItem> fetchAllNews() {
-        // В реальности: Retrofit -> TheSportsDB / RSS / ESPN API
-        return new ArrayList<>(); // пусто для примера
+    private List<NewsItem> convertToNewsItems(NewsResponse response) {
+        List<NewsItem> list = new ArrayList<>();
+
+        for (NewsResponse.Article article : response.articles) {
+            NewsItem item = new NewsItem();
+            item.id = article.url != null ? article.url : "";
+            item.title = article.title;
+            item.description = article.description;
+            item.date = article.publishedAt;
+            item.source = article.source != null ? article.source.name : "News";
+            item.imageUrl = article.urlToImage;
+            item.url = article.url;
+            list.add(item);
+        }
+        return list;
     }
 }

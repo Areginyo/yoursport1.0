@@ -15,13 +15,11 @@ public class SearchItem implements Parcelable {
     public int id;
     public String category; // "league", "team", "player"
 
-    // Заголовок
     public SearchItem(String headerTitle) {
         this.type = TYPE_HEADER;
         this.title = headerTitle;
     }
 
-    // Элемент
     public SearchItem(int type, String title, String subtitle, String logoUrl, int id, String category) {
         this.type = type;
         this.title = title;
@@ -72,12 +70,11 @@ public class SearchItem implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SearchItem that = (SearchItem) o;
-        return id == that.id &&
-                java.util.Objects.equals(category, that.category);
+        return id == that.id && category.equals(that.category);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(id, category);
+        return 31 * id + category.hashCode();
     }
 }

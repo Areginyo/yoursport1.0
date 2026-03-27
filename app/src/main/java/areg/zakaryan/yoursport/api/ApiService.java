@@ -7,15 +7,15 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    // Все лиги
+    // Get all competitions/leagues
     @GET("competitions")
     Call<Object> getCompetitions();
 
-    // Команды по лиге (по коду лиги, например "PL", "BL1")
+    // Get teams by league code (e.g., "PL" for Premier League)
     @GET("competitions/{code}/teams")
     Call<Object> getTeamsByLeague(@Path("code") String leagueCode);
 
-    // Матчи (если понадобится позже)
+    // Optional: Get matches by league code
     @GET("competitions/{code}/matches")
     Call<Object> getMatches(
             @Path("code") String leagueCode,

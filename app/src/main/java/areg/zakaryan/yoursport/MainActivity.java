@@ -80,19 +80,18 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     btnLogin.setEnabled(true);
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Добро пожаловать!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Welcome!", Toast.LENGTH_SHORT).show();
                         goToHome();
                     } else {
                         String error = task.getException() != null
                                 ? task.getException().getMessage()
-                                : "Ошибка входа";
-                        Toast.makeText(this, "Ошибка: " + error, Toast.LENGTH_LONG).show();
+                                : "Log in error";
+                        Toast.makeText(this, "Error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
     private void goToHome() {
-        // Замените HomeActivity.class на ваш главный экран
         Intent intent = new Intent(MainActivity.this, SportChoice.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

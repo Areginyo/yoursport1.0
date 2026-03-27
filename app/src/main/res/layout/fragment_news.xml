@@ -10,16 +10,19 @@
         android:id="@+id/tv_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Загрузка новостей..."
+        android:text="Loading news..."
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:gravity="center"
-        android:padding="24dp" />
+        android:padding="32dp"
+        android:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

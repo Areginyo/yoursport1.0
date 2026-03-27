@@ -6,30 +6,28 @@
     android:orientation="vertical"
     android:background="#181818">
 
-    <!-- TOP SPORT SELECTOR -->
-    <HorizontalScrollView
+    <!-- TOP SPORT TABS (показывается только в News/Matches/TV) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_sport_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:background="#181818"
-        android:paddingTop="48dp"
-        android:paddingBottom="12dp"
+        android:orientation="horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        android:clipToPadding="false"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:visibility="gone" />  <!-- по умолчанию скрыт -->
 
-        <LinearLayout
-            android:id="@+id/sportTabsContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-
-    </HorizontalScrollView>
-
-    <!-- LIME DIVIDER -->
+    <!-- LIME DIVIDER (только когда табы видны) -->
     <View
+        android:id="@+id/divider_sport_tabs"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#AAFF00" />
+        android:background="#AAFF00"
+        android:visibility="gone" />
 
     <!-- FRAGMENT CONTAINER -->
     <FrameLayout

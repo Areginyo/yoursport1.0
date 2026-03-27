@@ -1,6 +1,7 @@
 package areg.zakaryan.yoursport;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class SportChoice extends AppCompatActivity {
 
@@ -30,6 +32,17 @@ public class SportChoice extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Проверяем, был ли уже выбор
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        boolean isOnboardingDone = prefs.getBoolean("onboarding_completed", false);
+
+        if (isOnboardingDone) {
+            // Уже выбирал → сразу в Home
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+            return;
+        }
 
         cbFootball = findViewById(R.id.checkboxFootballSch);
         cbUFC = findViewById(R.id.checkboxUFCSch);
@@ -53,9 +66,16 @@ public class SportChoice extends AppCompatActivity {
             if (cbFormula1.isChecked()) selectedSports.add("Formula 1");
             if (cbTennis.isChecked()) selectedSports.add("Tennis");
 
+            // Сохраняем выбранные виды спорта и флаг завершения
+            prefs.edit()
+                    .putStringSet("selected_sports", new HashSet<>(selectedSports))
+                    .putBoolean("onboarding_completed", true)
+                    .apply();
+
             Intent intent = new Intent(SportChoice.this, SearchActivity.class);
             intent.putStringArrayListExtra("selected_sports", selectedSports);
             startActivity(intent);
+            // Не finish() здесь — SearchActivity сам закроет стек
         });
     }
 }

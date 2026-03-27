@@ -1,6 +1,7 @@
 package areg.zakaryan.yoursport;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -115,9 +116,18 @@ public class SearchActivity extends AppCompatActivity {
                 return;
             }
 
+            // Сохраняем флаг завершения онбординга
+            SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+            prefs.edit()
+                    .putBoolean("onboarding_completed", true)
+                    .apply();
+
             Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
             intent.putParcelableArrayListExtra("selected_items", selectedItems);
+
+            // Очищаем весь стек: SportChoice и SearchActivity больше не будут открываться
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
             startActivity(intent);
             finish();
         });

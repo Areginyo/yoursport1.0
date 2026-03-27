@@ -16,14 +16,20 @@ import areg.zakaryan.yoursport.model.SearchItem;
 public class SettingsFragment extends Fragment {
 
     private static final String ARG_SELECTED_ITEMS = "selected_items";
-    private ArrayList<SearchItem> selectedItems = new ArrayList<>();
+    private static final String ARG_CURRENT_SPORT = "current_sport";
 
-    public SettingsFragment() { }
+    private ArrayList<SearchItem> selectedItems;
+    private String currentSport;
 
-    public static SettingsFragment newInstance(ArrayList<SearchItem> selectedItems) {
+    public SettingsFragment() {
+        // Required empty public constructor
+    }
+
+    public static SettingsFragment newInstance(ArrayList<SearchItem> selectedItems, String currentSport) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARG_SELECTED_ITEMS, selectedItems);
+        args.putString(ARG_CURRENT_SPORT, currentSport);
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,6 +39,7 @@ public class SettingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             selectedItems = getArguments().getParcelableArrayList(ARG_SELECTED_ITEMS);
+            currentSport = getArguments().getString(ARG_CURRENT_SPORT);
         }
     }
 
@@ -41,6 +48,10 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+
+
+        return view;
     }
 }
