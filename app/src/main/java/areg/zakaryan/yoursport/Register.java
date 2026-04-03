@@ -58,12 +58,12 @@ public class Register extends AppCompatActivity {
         String repeatPwd = edtRepeatPassword.getText().toString().trim();
 
         if (fullName.isEmpty()) {
-            edtFullName.setError("Enter your name");
+            edtFullName.setError("Enter your full name");
             edtFullName.requestFocus();
             return;
         }
-        if (email.isEmpty()) {
-            edtEmail.setError("Enter your email");
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtEmail.setError("Enter a valid email");
             edtEmail.requestFocus();
             return;
         }
@@ -89,19 +89,33 @@ public class Register extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            UserProfileChangeRequest profileUpdate =
-                                    new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(fullName)
-                                            .build();
 
-                            user.updateProfile(profileUpdate)
-                                    .addOnCompleteListener(profileTask -> {
-                                        Toast.makeText(this,
-                                                "Account created!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(Register.this, SportChoice.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
+                        if (user != null) {
+                            // Set display name
+                            UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(fullName)
+                                    .build();
+
+                            user.updateProfile(profileUpdate);
+
+                            // Send email verification
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(verifyTask -> {
+                                        btnRegister.setEnabled(true);
+
+                                        if (verifyTask.isSuccessful()) {
+                                            Toast.makeText(this,
+                                                    "Account created successfully!\nA verification email has been sent to " + email,
+                                                    Toast.LENGTH_LONG).show();
+
+                                            // Go back to login screen
+                                            startActivity(new Intent(Register.this, MainActivity.class));
+                                            finish();
+                                        } else {
+                                            Toast.makeText(this,
+                                                    "Account created, but failed to send verification email.",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     });
                         }
                     } else {

@@ -69,26 +69,16 @@ public class NewsFragment extends Fragment {
         newsAdapter = new NewsAdapter();
         rvNews.setAdapter(newsAdapter);
 
-        loadPersonalizedNews();
+        loadNewsForCurrentSport();
 
         return view;
     }
 
-    private void loadPersonalizedNews() {
+    private void loadNewsForCurrentSport() {
         tvEmpty.setText("Loading " + currentSport + " news...");
         tvEmpty.setVisibility(View.VISIBLE);
 
-        String query = getBaseSportQuery(currentSport);
-
-        // Добавляем только выбранные тобой команды, игроков и лиги
-        if (selectedItems != null && !selectedItems.isEmpty()) {
-            for (SearchItem item : selectedItems) {
-                if (item.title != null && !item.title.isEmpty()) {
-                    if (query.length() > 0) query += " OR ";
-                    query += "\"" + item.title + "\"";
-                }
-            }
-        }
+        String query = getQueryForSport(currentSport);
 
         String apiKey = "e2c5ad86dd95403c8a9f7e535d1f3d56";
 
@@ -101,7 +91,7 @@ public class NewsFragment extends Fragment {
                             newsAdapter.submitList(newsList);
 
                             if (newsList.isEmpty()) {
-                                tvEmpty.setText("No news found for your selection");
+                                tvEmpty.setText("No news found for " + currentSport);
                             } else {
                                 tvEmpty.setVisibility(View.GONE);
                             }
@@ -117,13 +107,13 @@ public class NewsFragment extends Fragment {
                 });
     }
 
-    // Правильный базовый запрос для каждого спорта
-    private String getBaseSportQuery(String sport) {
+    // Очень простой и строгий запрос для каждой вкладки
+    private String getQueryForSport(String sport) {
         switch (sport) {
             case "Football":
-                return "soccer";
+                return "FIFA";
             case "UFC":
-                return "UFC";
+                return "UFC or MMA";
             case "Formula 1":
                 return "\"Formula 1\"";
             case "Basketball":

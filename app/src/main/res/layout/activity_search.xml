@@ -7,7 +7,7 @@
     android:background="#181818"
     android:fitsSystemWindows="true">
 
-    <!-- TOP LIME STRIPE (акцентная полоса) -->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="Choose"
                 android:textColor="#AAFF00"
+                android:fontFamily="@font/font_oswald_bold"
                 android:textSize="10sp"
                 android:textAllCaps="true"
                 android:letterSpacing="0.28" />
@@ -58,6 +59,7 @@
                 android:textColor="#F0F0F0"
                 android:textSize="42sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/font_oswald_bold"
                 android:lineHeight="48sp" />
 
             <TextView
@@ -67,6 +69,7 @@
                 android:textColor="#AAFF00"
                 android:textSize="42sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/font_oswald_bold"
                 android:lineHeight="48sp" />
         </LinearLayout>
 
@@ -133,6 +136,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="32dp"
         android:text="CONTINUE →"
+        android:fontFamily="@font/font_oswald_bold"
         android:textColor="#111111"
         android:textSize="16sp"
         android:textStyle="bold"

@@ -61,6 +61,7 @@ public class NewsAdapter extends ListAdapter<NewsItem, NewsAdapter.NewsViewHolde
             if (item.imageUrl != null && !item.imageUrl.isEmpty()) {
                 Glide.with(ivImage.getContext())
                         .load(item.imageUrl)
+                        .fitCenter()
                         .placeholder(R.drawable.ic_placeholder)
                         .error(R.drawable.ic_error)
                         .centerCrop()

@@ -2,11 +2,11 @@ package areg.zakaryan.yoursport;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,8 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import androidx.activity.EdgeToEdge;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,24 +50,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Если пользователь уже вошёл — сразу на главный экран
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            goToHome();
+            checkEmailVerification(currentUser);
         }
     }
 
     private void loginUser() {
-        String email    = edtEmail.getText().toString().trim();
+        String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
         if (email.isEmpty()) {
-            edtEmail.setError("Введите email");
+            edtEmail.setError("Enter your email");
             edtEmail.requestFocus();
             return;
         }
         if (password.isEmpty()) {
-            edtPassword.setError("Введите пароль");
+            edtPassword.setError("Enter your password");
             edtPassword.requestFocus();
             return;
         }
@@ -79,21 +76,47 @@ public class MainActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     btnLogin.setEnabled(true);
+
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Welcome!", Toast.LENGTH_SHORT).show();
-                        goToHome();
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            checkEmailVerification(user);
+                        }
                     } else {
                         String error = task.getException() != null
                                 ? task.getException().getMessage()
-                                : "Log in error";
+                                : "Login failed";
                         Toast.makeText(this, "Error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    /**
+     * Checks if the user's email is verified
+     */
+    private void checkEmailVerification(FirebaseUser user) {
+        if (user.isEmailVerified()) {
+            Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
+            goToHome();
+        } else {
+            Toast.makeText(this,
+                    "Please verify your email first.\nCheck your inbox (including spam folder).",
+                    Toast.LENGTH_LONG).show();
+
+            // Optional: Resend verification email
+            user.sendEmailVerification()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(this, "Verification email sent again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     private void goToHome() {
         Intent intent = new Intent(MainActivity.this, SportChoice.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 }

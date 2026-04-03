@@ -17,7 +17,7 @@
             android:id="@+id/iv_news_image"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_placeholder"
             android:contentDescription="News image" />
 
