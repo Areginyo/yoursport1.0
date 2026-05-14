@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="85dp"
+    android:layout_height="78dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/bg_date_tab_normal"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_week_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Week 17"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/font_oswald_bold"/>
+
+    <TextView
+        android:id="@+id/tv_week_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="14 - 20 Apr"
+        android:textColor="#AAAAAA"
+        android:textSize="12.5sp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/font_oswald_bold"/>
+</LinearLayout>

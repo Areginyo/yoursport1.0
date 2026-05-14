@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Simple swap arrows (substitution) -->
+    <path
+        android:fillColor="#AAFF00"
+        android:pathData="M6,13l4,4 -4,4v-3H1v-2h5v-3z M18,5l4,4 -4,4V10h-5V8h5V5z" />
+</vector>

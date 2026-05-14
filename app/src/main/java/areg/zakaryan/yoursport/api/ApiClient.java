@@ -8,54 +8,56 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "https://api.football-data.org/v4/";
-    private static final String API_KEY  = "e9992eda34d4471b954b26f991aed4af";
+    // ==================== API-FOOTBALL (твой ключ) ====================
+    private static final String BASE_URL = "https://v3.football.api-sports.io/";
+    private static final String API_KEY = "f297ffaa96f0baa8d6e2c0c730f43e54";
 
-    private static Retrofit retrofit = null;
+    private static Retrofit retrofitFootball;
 
     public static Retrofit getClient() {
-        if (retrofit == null) {
-
+        if (retrofitFootball == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(chain -> {
                         Request request = chain.request().newBuilder()
-                                .addHeader("X-Auth-Token", API_KEY)
+                                .addHeader("x-apisports-key", API_KEY)
+                                .addHeader("x-rapidapi-key", API_KEY)
+                                .addHeader("x-rapidapi-host", "v3.football.api-sports.io")
                                 .build();
                         return chain.proceed(request);
                     })
                     .addInterceptor(logging)
                     .build();
 
-            retrofit = new Retrofit.Builder()
+            retrofitFootball = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return retrofit;
-    }
-
-    private static Retrofit retrofitTheSportsDB;
-
-    private static final String THESPORTSDB_BASE_URL = "https://www.thesportsdb.com/api/v1/json/3/";
-
-    public static TheSportsDBService getTheSportsDBService() {
-        if (retrofitTheSportsDB == null) {
-            retrofitTheSportsDB = new Retrofit.Builder()
-                    .baseUrl(THESPORTSDB_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofitTheSportsDB.create(TheSportsDBService.class);
+        return retrofitFootball;
     }
 
     public static ApiService getApiService() {
         return getClient().create(ApiService.class);
     }
 
+    // ==================== TheSportsDB ====================
+    private static Retrofit retrofitTheSportsDB;
+
+    public static TheSportsDBService getTheSportsDBService() {
+        if (retrofitTheSportsDB == null) {
+            retrofitTheSportsDB = new Retrofit.Builder()
+                    .baseUrl("https://www.thesportsdb.com/api/v1/json/3/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofitTheSportsDB.create(TheSportsDBService.class);
+    }
+
+    // ==================== NewsAPI ====================
     private static Retrofit retrofitNews;
 
     public static NewsApiService getNewsApiService() {
@@ -66,5 +68,31 @@ public class ApiClient {
                     .build();
         }
         return retrofitNews.create(NewsApiService.class);
+    }
+
+    // ==================== BallDontLie (NBA) ====================
+    private static Retrofit retrofitNba;
+
+    public static NbaApiService getNbaApiService() {
+        if (retrofitNba == null) {
+            retrofitNba = new Retrofit.Builder()
+                    .baseUrl("https://api.balldontlie.io/v1/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofitNba.create(NbaApiService.class);
+    }
+
+    // ==================== F1 ====================
+    private static Retrofit retrofitF1;
+
+    public static F1ApiService getF1ApiService() {
+        if (retrofitF1 == null) {
+            retrofitF1 = new Retrofit.Builder()
+                    .baseUrl("https://api.jolpi.ca/ergast/f1/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofitF1.create(F1ApiService.class);
     }
 }

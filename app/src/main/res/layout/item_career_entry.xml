@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#1E1E1E"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
+    android:layout_marginBottom="2dp">
+
+    <!-- Green dot -->
+    <View
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:background="#AAFF00"
+        android:layout_marginEnd="14dp" />
+
+    <!-- Club logo -->
+    <ImageView
+        android:id="@+id/ivClubLogo"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:scaleType="fitCenter"
+        android:layout_marginEnd="14dp" />
+
+    <!-- Club name + date -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvClubName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F0F0F0"
+            android:textSize="14sp"
+            android:fontFamily="@font/font_oswald_bold"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/tvYears"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp" />
+
+        <!-- Keep tvMatches as hidden stub so adapter references compile -->
+        <TextView
+            android:id="@+id/tvMatches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

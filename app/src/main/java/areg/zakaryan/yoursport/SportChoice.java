@@ -16,9 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import areg.zakaryan.yoursport.model.SearchItem;
+
 public class SportChoice extends AppCompatActivity {
 
-    private CheckBox cbFootball, cbUFC, cbBasketball, cbFormula1, cbTennis;
+    private CheckBox cbFootball;
     private Button btnChoose;
 
     @Override
@@ -36,8 +38,9 @@ public class SportChoice extends AppCompatActivity {
         // Проверяем, был ли уже выбор
         SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
         boolean isOnboardingDone = prefs.getBoolean("onboarding_completed", false);
+        boolean fromSettings = getIntent().getBooleanExtra("from_settings", false);
 
-        if (isOnboardingDone) {
+        if (isOnboardingDone && !fromSettings) {
             // Уже выбирал → сразу в Home
             startActivity(new Intent(this, HomeActivity.class));
             finish();
@@ -45,26 +48,22 @@ public class SportChoice extends AppCompatActivity {
         }
 
         cbFootball = findViewById(R.id.checkboxFootballSch);
-        cbUFC = findViewById(R.id.checkboxUFCSch);
-        cbBasketball = findViewById(R.id.checkboxBasketballSch);
-        cbFormula1 = findViewById(R.id.checkboxFormula1Sch);
-        cbTennis = findViewById(R.id.checkboxTennisSch);
         btnChoose = findViewById(R.id.btnChoose);
 
+        // При повторном открытии из Settings показываем прошлый выбор спорта.
+        java.util.Set<String> savedSports = prefs.getStringSet("selected_sports", new HashSet<>());
+        if (savedSports != null) {
+            cbFootball.setChecked(savedSports.contains("Football"));
+        }
+
         btnChoose.setOnClickListener(v -> {
-            if (!cbFootball.isChecked() && !cbUFC.isChecked() &&
-                    !cbBasketball.isChecked() && !cbFormula1.isChecked() &&
-                    !cbTennis.isChecked()) {
+            if (!cbFootball.isChecked()) {
                 Toast.makeText(this, "Select at least one sport", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             ArrayList<String> selectedSports = new ArrayList<>();
             if (cbFootball.isChecked()) selectedSports.add("Football");
-            if (cbUFC.isChecked()) selectedSports.add("UFC");
-            if (cbBasketball.isChecked()) selectedSports.add("Basketball");
-            if (cbFormula1.isChecked()) selectedSports.add("Formula 1");
-            if (cbTennis.isChecked()) selectedSports.add("Tennis");
 
             // Сохраняем выбранные виды спорта и флаг завершения
             prefs.edit()
@@ -72,10 +71,29 @@ public class SportChoice extends AppCompatActivity {
                     .putBoolean("onboarding_completed", true)
                     .apply();
 
-            Intent intent = new Intent(SportChoice.this, SearchActivity.class);
-            intent.putStringArrayListExtra("selected_sports", selectedSports);
-            startActivity(intent);
-            // Не finish() здесь — SearchActivity сам закроет стек
+            // Get pre-selected items from intent or load from Firestore
+            ArrayList<SearchItem> intentItems = getIntent().getParcelableArrayListExtra("selected_items");
+
+            if (intentItems != null && !intentItems.isEmpty()) {
+                openSearchActivity(selectedSports, intentItems, fromSettings);
+            } else {
+                // Load from Firestore
+                FavoritesManager.loadSelectedItems(items -> {
+                    if (!isFinishing()) {
+                        openSearchActivity(selectedSports, items, fromSettings);
+                    }
+                });
+            }
         });
+    }
+
+    private void openSearchActivity(ArrayList<String> selectedSports,
+                                     ArrayList<SearchItem> preselectedItems,
+                                     boolean fromSettings) {
+        Intent intent = new Intent(SportChoice.this, SearchActivity.class);
+        intent.putStringArrayListExtra("selected_sports", selectedSports);
+        intent.putExtra("from_settings", fromSettings);
+        intent.putParcelableArrayListExtra("selected_items", preselectedItems);
+        startActivity(intent);
     }
 }

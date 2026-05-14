@@ -14,4 +14,16 @@ public interface TheSportsDBService {
 
     @GET("lookuphonours.php")
     Call<Object> getPlayerHonours(@Query("id") int id);
+
+    @GET("eventsnextleague.php")
+    Call<Object> getNextLeagueEvents(@Query("id") int leagueId);
+
+    @GET("eventspastleague.php")
+    Call<Object> getPastLeagueEvents(@Query("id") int leagueId);
+
+    @GET("eventsday.php")
+    Call<Object> getEventsByDate(
+            @Query("d") String date,
+            @Query("s") String sport
+    );
 }

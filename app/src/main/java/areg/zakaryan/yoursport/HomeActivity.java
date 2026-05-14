@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,9 @@ import java.util.Set;
 import areg.zakaryan.yoursport.model.SearchItem;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final Set<String> SUPPORTED_SPORTS = new HashSet<>(
+            Arrays.asList("Football")
+    );
 
     private ArrayList<SearchItem> selectedItems;
     private List<String> selectedSports = new ArrayList<>();
@@ -29,16 +33,34 @@ public class HomeActivity extends AppCompatActivity {
     private String currentSport = "Football";
 
     private BottomNavigationView bottomNav;
+    private boolean isInitialized = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Try to get selectedItems from intent first
         selectedItems = getIntent().getParcelableArrayListExtra("selected_items");
-        if (selectedItems == null) {
+
+        if (selectedItems != null && !selectedItems.isEmpty()) {
+            // Got items from intent (coming from SearchActivity)
+            initializeUI(savedInstanceState);
+        } else {
+            // No items in intent — load from Firestore
             selectedItems = new ArrayList<>();
+            FavoritesManager.loadSelectedItems(items -> {
+                selectedItems = items;
+                if (!isFinishing()) {
+                    initializeUI(savedInstanceState);
+                }
+            });
         }
+    }
+
+    private void initializeUI(Bundle savedInstanceState) {
+        if (isInitialized) return;
+        isInitialized = true;
 
         // Загружаем выбранные виды спорта из SportChoice (сохранённые)
         SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
@@ -46,10 +68,24 @@ public class HomeActivity extends AppCompatActivity {
 
         selectedSports.clear();
         selectedSports.addAll(savedSports);
+        selectedSports.removeIf(sport -> !SUPPORTED_SPORTS.contains(sport));
+        if (!savedSports.equals(new HashSet<>(selectedSports))) {
+            Set<String> updated = new HashSet<>(selectedSports);
+            prefs.edit().putStringSet("selected_sports", updated).apply();
+        }
+
+        if (selectedSports.contains("Football")) {
+            selectedSports.remove("Football");
+            selectedSports.add(0, "Football");
+            currentSport = "Football";
+        }
 
         // Если по какой-то причине пусто — дефолт
         if (selectedSports.isEmpty()) {
             selectedSports.add("Football");
+            currentSport = "Football";
+        } else if (!selectedSports.contains(currentSport)) {
+            currentSport = selectedSports.get(0);
         }
 
         // Настройка табов (количество = количеству выбранных в SportChoice)
@@ -69,8 +105,7 @@ public class HomeActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             boolean showTabs = (itemId == R.id.nav_news ||
-                    itemId == R.id.nav_matches ||
-                    itemId == R.id.nav_tv);
+                    itemId == R.id.nav_matches);
 
             rvSportTabs.setVisibility(showTabs ? View.VISIBLE : View.GONE);
             findViewById(R.id.divider_sport_tabs).setVisibility(showTabs ? View.VISIBLE : View.GONE);
@@ -79,8 +114,6 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = NewsFragment.newInstance(selectedItems, currentSport);
             } else if (itemId == R.id.nav_matches) {
                 fragment = MatchesFragment.newInstance(selectedItems, currentSport);
-            } else if (itemId == R.id.nav_tv) {
-                fragment = TvFragment.newInstance(selectedItems, currentSport);
             } else if (itemId == R.id.nav_settings) {
                 fragment = SettingsFragment.newInstance(selectedItems, currentSport);
             }

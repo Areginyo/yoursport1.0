@@ -13,11 +13,6 @@
         android:title="Matches"
         android:fontFamily="@font/font_oswald_bold"/>
 
-    <item
-        android:id="@+id/nav_tv"
-        android:icon="@drawable/ic_tv"
-        android:title="TV"
-        android:fontFamily="@font/font_oswald_bold"/>
 
     <item
         android:id="@+id/nav_settings"

@@ -15,6 +15,9 @@ public interface ApiServiceSports {
     @GET("searchteams.php")
     Call<Object> searchTeams(@Query("l") String leagueName);
 
+    @GET("searchteams.php")
+    Call<Object> searchTeamByName(@Query("t") String teamName);
+
     @GET("search_all_teams.php")
     Call<Object> getAllTeams(@Query("l") String leagueName);
 
@@ -23,5 +26,11 @@ public interface ApiServiceSports {
 
     @GET("lookupleague.php")
     Call<Object> getLeague(@Query("id") String leagueId);
+
+    @GET("lookup_team.php")
+    Call<Object> getTeamSquad(@Query("id") int teamId);
+
+    @GET("searchteamnews.php")
+    Call<Object> searchTeamNews(@Query("teamname") String teamName);
 
 }

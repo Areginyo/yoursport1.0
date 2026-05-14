@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#181818">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/font_oswald_bold"
+            android:text="Match Statistics"
+            android:textColor="#AAFF00"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_stats_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Loading detailed stats..."
+            android:textColor="#AAAAAA"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_stats_graphs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/row_possession"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Possession"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_possession_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0% - 0%"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_possession_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_possession_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_total_passes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total Passes"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_total_passes_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_total_passes_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_total_passes_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_pass_accuracy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pass Accuracy"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_pass_accuracy_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0% - 0%"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_pass_accuracy_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_pass_accuracy_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_shots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shots"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_shots_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_shots_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_shots_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_on_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shots on Target"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_on_target_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_on_target_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_on_target_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_corners"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Corners"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_corners_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_corners_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_corners_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_offsides"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Offsides"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_offsides_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_offsides_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_offsides_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_fouls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fouls"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_fouls_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_fouls_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_fouls_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_goalkeeper_saves"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Goalkeeper Saves"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_goalkeeper_saves_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_goalkeeper_saves_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_goalkeeper_saves_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_yellow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Yellow Cards"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_yellow_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_yellow_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_yellow_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Red Cards"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_red_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="0 - 0"
+                    android:textColor="#AAAAAA" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_red_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:indicatorColor="@android:color/holo_green_light"
+                    app:trackColor="#303030" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_red_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="4dp"
+                    app:indicatorColor="@android:color/holo_orange_light"
+                    app:trackColor="#303030" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

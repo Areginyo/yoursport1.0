@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="8dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- Rank -->
+    <TextView
+        android:id="@+id/txtRank"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- Team Logo -->
+    <ImageView
+        android:id="@+id/imgTeamLogo"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="centerInside"
+        android:layout_marginStart="4dp" />
+
+    <!-- Team Name -->
+    <TextView
+        android:id="@+id/txtTeamName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="4dp"
+        android:textColor="#F0F0F0"
+        android:textSize="13sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
+
+    <!-- P -->
+    <TextView
+        android:id="@+id/txtPlayed"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- W -->
+    <TextView
+        android:id="@+id/txtWon"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- D -->
+    <TextView
+        android:id="@+id/txtDraw"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- L -->
+    <TextView
+        android:id="@+id/txtLost"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- GF -->
+    <TextView
+        android:id="@+id/txtGoalsFor"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- GA -->
+    <TextView
+        android:id="@+id/txtGoalsAgainst"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- GD -->
+    <TextView
+        android:id="@+id/txtGoalDiff"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:textColor="#B0BEC5"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+    <!-- PTS -->
+    <TextView
+        android:id="@+id/txtPoints"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:textColor="#AAFF00"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+</LinearLayout>

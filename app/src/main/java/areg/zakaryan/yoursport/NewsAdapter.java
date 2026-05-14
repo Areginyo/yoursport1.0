@@ -69,6 +69,17 @@ public class NewsAdapter extends ListAdapter<NewsItem, NewsAdapter.NewsViewHolde
             } else {
                 ivImage.setImageResource(R.drawable.ic_placeholder);
             }
+
+            itemView.setOnClickListener(v -> {
+                if (item.url != null && !item.url.isEmpty()) {
+                    try {
+                        android.content.Intent intent = new android.content.Intent(
+                                android.content.Intent.ACTION_VIEW,
+                                android.net.Uri.parse(item.url));
+                        v.getContext().startActivity(intent);
+                    } catch (Exception ignored) {}
+                }
+            });
         }
     }
 

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#181818">
+
+    <LinearLayout
+        android:id="@+id/llContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="32dp"
+            android:text="No statistics available"
+            android:textColor="#B0BEC5"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <!-- TOP SCORERS -->
+        <TextView
+            android:id="@+id/lblTopScorers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TOP SCORERS"
+            android:textColor="#AAFF00"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llTopScorers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0D0D0D"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+        <!-- TOP ASSISTS -->
+        <TextView
+            android:id="@+id/lblTopAssists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TOP ASSISTS"
+            android:textColor="#AAFF00"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llTopAssists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0D0D0D"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+        <!-- GOALS + ASSISTS -->
+        <TextView
+            android:id="@+id/lblTopGA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GOALS + ASSISTS"
+            android:textColor="#AAFF00"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llTopGA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0D0D0D"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+        <!-- YELLOW CARDS -->
+        <TextView
+            android:id="@+id/lblYellowCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="YELLOW CARDS"
+            android:textColor="#FFEB3B"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llYellowCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0D0D0D"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+        <!-- RED CARDS -->
+        <TextView
+            android:id="@+id/lblRedCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RED CARDS"
+            android:textColor="#F44336"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llRedCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0D0D0D"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>

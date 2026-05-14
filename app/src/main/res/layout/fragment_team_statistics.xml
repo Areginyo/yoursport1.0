@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#181818">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ProgressBar android:id="@+id/progressBar"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center" android:visibility="gone" />
+
+        <TextView android:id="@+id/txtNoStatistics"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center" android:padding="32dp"
+            android:text="No statistics available"
+            android:textColor="#F0F0F0" android:textSize="16sp" android:visibility="gone" />
+
+        <!-- RESULTS -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="RESULTS" android:textColor="#AAFF00" android:textSize="13sp"
+            android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="8dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#0D0D0D"
+            android:padding="16dp" android:layout_marginBottom="20dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Matches Played" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valPlayed" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Won" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valWon" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#AAFF00" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Drawn" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valDraw" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Lost" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valLost" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Win Rate" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valWinRate" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#AAFF00" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Recent Form" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valForm" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ATTACK -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="ATTACK" android:textColor="#AAFF00" android:textSize="13sp"
+            android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="8dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#0D0D0D"
+            android:padding="16dp" android:layout_marginBottom="20dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Goals Scored" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valGoalsFor" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#AAFF00" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Goals per Game" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valGoalsPerGame" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Biggest Win" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valBiggestWin" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Penalty Success" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valPenalty" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Failed to Score" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valFailedScore" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- DEFENSE -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="DEFENSE" android:textColor="#AAFF00" android:textSize="13sp"
+            android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="8dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#0D0D0D"
+            android:padding="16dp" android:layout_marginBottom="20dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Goals Conceded" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valGoalsAgainst" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Conceded per Game" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valGoalsAgainstAvg" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Clean Sheets" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valCleanSheets" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#AAFF00" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Biggest Loss" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valBiggestLoss" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F0F0F0" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- DISCIPLINE -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="DISCIPLINE" android:textColor="#AAFF00" android:textSize="13sp"
+            android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="8dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#0D0D0D"
+            android:padding="16dp" android:layout_marginBottom="20dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Yellow Cards" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valYellow" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#FFEB3B" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A2A"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Red Cards" android:textColor="#B0BEC5" android:textSize="14sp"/>
+                <TextView android:id="@+id/valRed" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#F44336" android:textSize="14sp" android:textStyle="bold" android:text="—"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

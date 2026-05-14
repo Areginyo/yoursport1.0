@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#181818">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/font_oswald_bold"
+            android:text="Starting Lineups"
+            android:textColor="#AAFF00"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_home_formation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Home formation: —"
+            android:textColor="#CFCFCF"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_away_formation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Away formation: —"
+            android:textColor="#CFCFCF"
+            android:textSize="13sp" />
+
+        <FrameLayout
+            android:id="@+id/pitch_container"
+            android:layout_width="match_parent"
+            android:layout_height="640dp"
+            android:layout_marginBottom="14dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Pitch"
+                android:scaleType="fitXY"
+                android:src="@drawable/lineup_pitch" />
+
+            <LinearLayout
+                android:id="@+id/home_pitch_rows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp" />
+
+            <LinearLayout
+                android:id="@+id/away_pitch_rows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Home Bench"
+                    android:textColor="#AAFF00"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_home_bench"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="3dp"
+                    android:text="—"
+                    android:textColor="#D8D8D8"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Away Bench"
+                    android:textColor="#AAFF00"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_away_bench"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="3dp"
+                    android:text="—"
+                    android:textColor="#D8D8D8"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

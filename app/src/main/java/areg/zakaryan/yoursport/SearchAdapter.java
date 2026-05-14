@@ -23,14 +23,23 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<SearchItem> items = List.of();
     private final List<SearchItem> selectedItems;
     private final OnItemClickListener listener;
+    private final boolean isSelectionMode;
 
     public interface OnItemClickListener {
         void onItemClicked(SearchItem item);
+        void onTeamClicked(SearchItem teamItem);
     }
 
     public SearchAdapter(List<SearchItem> selectedItems, OnItemClickListener listener) {
         this.selectedItems = selectedItems;
         this.listener = listener;
+        this.isSelectionMode = true;
+    }
+
+    public SearchAdapter(OnItemClickListener listener) {
+        this.selectedItems = new ArrayList<>();
+        this.listener = listener;
+        this.isSelectionMode = false;
     }
 
     public void setItems(List<SearchItem> newItems) {
@@ -66,8 +75,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             vh.txtTitle.setText(item.title);
             vh.txtSubtitle.setText(item.subtitle != null ? item.subtitle : "");
 
-            boolean isSelected = selectedItems.contains(item);
-            vh.checkbox.setChecked(isSelected);
+            // Show/hide checkbox based on selection mode
+            vh.checkbox.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
+            
+            if (isSelectionMode) {
+                boolean isSelected = selectedItems.contains(item);
+                vh.checkbox.setChecked(isSelected);
+            }
 
             if (item.logoUrl != null && !item.logoUrl.isEmpty()) {
                 Glide.with(vh.imgLogo)
@@ -80,8 +94,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
 
             vh.itemRoot.setOnClickListener(v -> {
-                listener.onItemClicked(item);
-                notifyItemChanged(position);
+                if (isSelectionMode) {
+                    listener.onItemClicked(item);
+                    notifyItemChanged(position);
+                } else if (item.category != null && item.category.equals("team")) {
+                    listener.onTeamClicked(item);
+                } else {
+                    listener.onItemClicked(item);
+                }
             });
         }
     }

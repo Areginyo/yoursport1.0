@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:background="#0D0D0D">
+
+    <!-- League header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:background="#181818">
+
+        <TextView
+            android:id="@+id/txtLeagueName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#F0F0F0"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtSeason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAFF00"
+            android:textSize="13sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <!-- Column headers -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="8dp"
+        android:background="#1A1A1A">
+
+        <TextView
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:text="#"
+            android:textColor="#AAFF00"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <View android:layout_width="28dp" android:layout_height="1dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Team"
+            android:textColor="#AAFF00"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:paddingStart="8dp" />
+
+        <TextView android:layout_width="28dp" android:layout_height="wrap_content"
+            android:text="P" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+        <TextView android:layout_width="28dp" android:layout_height="wrap_content"
+            android:text="W" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+        <TextView android:layout_width="28dp" android:layout_height="wrap_content"
+            android:text="D" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+        <TextView android:layout_width="28dp" android:layout_height="wrap_content"
+            android:text="L" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+        <TextView android:layout_width="28dp" android:layout_height="wrap_content"
+            android:text="GF" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+        <TextView android:layout_width="28dp" android:layout_height="wrap_content"
+            android:text="GA" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+        <TextView android:layout_width="36dp" android:layout_height="wrap_content"
+            android:text="GD" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+        <TextView android:layout_width="36dp" android:layout_height="wrap_content"
+            android:text="PTS" android:textColor="#AAFF00" android:textSize="11sp"
+            android:textStyle="bold" android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Table rows -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPositions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:paddingBottom="8dp" />
+
+</LinearLayout>

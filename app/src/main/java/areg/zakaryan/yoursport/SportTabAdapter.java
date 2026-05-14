@@ -64,12 +64,8 @@ public class SportTabAdapter extends RecyclerView.Adapter<SportTabAdapter.ViewHo
 
     private int getSportIcon(String sport) {
         switch (sport) {
-            case "Football":   return R.drawable.ic_football;
-            case "UFC":        return R.drawable.ic_ufc_1;
-            case "Basketball": return R.drawable.ic_basketball;
-            case "Formula 1":  return R.drawable.ic_formula1_1;
-            case "Tennis":     return R.drawable.ic_tennis;
-            default:           return R.drawable.ic_sport_default;
+            case "Football": return R.drawable.ic_football;
+            default:         return R.drawable.ic_sport_default;
         }
     }
 

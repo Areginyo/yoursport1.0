@@ -38,6 +38,22 @@
         <activity
             android:name=".HomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".MatchDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.YourSport"/>
+        <activity
+            android:name=".TeamDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.YourSport"/>
+        <activity
+            android:name=".LeagueDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.YourSport"/>
+        <activity
+            android:name=".PlayerDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.YourSport"/>
     </application>
 
 </manifest>

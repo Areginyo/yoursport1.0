@@ -1,27 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#181818">
 
-
-    <TextView
-        android:id="@+id/tv_status"
+    <!-- Date calendar scroll -->
+    <HorizontalScrollView
+        android:id="@+id/hsv_dates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Загрузка матчей..."
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="24dp" />
+        android:background="#202020"
+        android:scrollbars="none"
+        android:paddingVertical="8dp">
 
+        <LinearLayout
+            android:id="@+id/ll_dates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_matches"
+    </HorizontalScrollView>
+
+    <!-- League filter tabs -->
+    <HorizontalScrollView
+        android:id="@+id/hsv_league_tabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+        android:layout_height="wrap_content"
+        android:background="#1C1C1C"
+        android:scrollbars="none"
+        android:paddingVertical="8dp">
+
+        <LinearLayout
+            android:id="@+id/ll_league_tabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"/>
+
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_matches"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="4dp"
+            android:clipToPadding="false"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Loading..."
+            android:textColor="#888888"
+            android:textSize="16sp"
+            android:gravity="center"/>
+
+    </FrameLayout>
 
 </LinearLayout>
