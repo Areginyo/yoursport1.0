@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import areg.zakaryan.yoursport.api.ApiClient;
+import areg.zakaryan.yoursport.api.ApiClientSports;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,9 +94,9 @@ public class PlayerOverviewFragment extends Fragment {
                                 // Pick primary league stat (most appearances)
                                 Map<String, Object> primaryStat = pickPrimaryStat(stats);
                                 bindClub(view, primaryStat);
-                                findNationalTeam(view, stats);
                             }
-                            showCards(view);
+                            // National team from player nationality field
+                            if (player != null) findNationalTeam(view, player, stats);
 
                         } catch (Exception e) {
                             tryPreviousSeason(view, pb, tvEmpty, season);
@@ -192,31 +193,207 @@ public class PlayerOverviewFragment extends Fragment {
     }
 
     @SuppressWarnings("unchecked")
-    private void findNationalTeam(View view, List<Map<String, Object>> stats) {
+    private void findNationalTeam(View view, Map<String, Object> player,
+                                   List<Map<String, Object>> stats) {
+        // 1) First try: find a real national team entry in stats
+        //    (entry where team name has NO club keywords AND league is international/cup)
         for (Map<String, Object> stat : stats) {
             Map<String, Object> league = castMap(stat.get("league"));
-            if (league == null) continue;
-            // National leagues have country == team name typically, or type != "League"
+            Map<String, Object> team   = castMap(stat.get("team"));
+            if (league == null || team == null) continue;
+
             String leagueName = safe(league.get("name")).toLowerCase();
-            if (leagueName.contains("nation") || leagueName.contains("world cup")
-                    || leagueName.contains("euro") || leagueName.contains("copa")) {
-                Map<String, Object> team = castMap(stat.get("team"));
-                if (team == null) continue;
-                String name = safe(team.get("name"));
+            String leagueType = safe(league.get("type")).toLowerCase();
+            String teamName   = safe(team.get("name"));
+
+            boolean isInternationalLeague =
+                    leagueName.contains("nations league")
+                    || leagueName.contains("world cup")
+                    || leagueName.contains("qualif")
+                    || leagueName.contains("friendlies")
+                    || leagueName.contains("euro ")
+                    || leagueName.contains("copa america")
+                    || leagueName.contains("africa cup")
+                    || leagueName.contains("gold cup")
+                    || leagueName.contains("asian cup")
+                    || leagueName.contains("olympic");
+
+            if (isInternationalLeague && !isClubName(teamName)) {
                 String logo = safe(team.get("logo"));
-                if (!name.isEmpty()) {
-                    ((TextView) view.findViewById(R.id.tvNationalTeam)).setText(name);
-                    ImageView iv = view.findViewById(R.id.ivNationalLogo);
-                    if (!logo.isEmpty()) {
-                        Glide.with(iv.getContext()).load(logo)
-                                .placeholder(R.drawable.ic_placeholder)
-                                .error(R.drawable.ic_placeholder).into(iv);
-                    }
-                    view.findViewById(R.id.cardNational).setVisibility(View.VISIBLE);
-                    return;
-                }
+                showNationalTeam(view, teamName, logo);
+                showCards(view);
+                return;
             }
         }
+
+        // 2) Fallback: use nationality field from player object
+        String nationality = safe(player.get("nationality"));
+        if (!nationality.isEmpty()) {
+            // Convert adjective ("French") → country name ("France") → ISO code ("fr")
+            String countryName = nationalityToCountry(nationality);
+            String isoCode = countryToIsoCode(countryName);
+            // flagcdn.com provides free country flag images by ISO code
+            String flagUrl = isoCode.isEmpty() ? ""
+                    : "https://flagcdn.com/w80/" + isoCode.toLowerCase() + ".png";
+            showNationalTeam(view, countryName, flagUrl);
+            showCards(view);
+            return;
+        }
+
+        // No national team found at all
+        showCards(view);
+    }
+
+    /** Maps country name → ISO 3166-1 alpha-2 code for flagcdn.com */
+    private String countryToIsoCode(String country) {
+        java.util.HashMap<String, String> map = new java.util.HashMap<>();
+        map.put("France", "fr"); map.put("Brazil", "br"); map.put("Argentina", "ar");
+        map.put("Spain", "es"); map.put("Germany", "de"); map.put("England", "gb-eng");
+        map.put("Italy", "it"); map.put("Portugal", "pt"); map.put("Netherlands", "nl");
+        map.put("Belgium", "be"); map.put("Croatia", "hr"); map.put("Poland", "pl");
+        map.put("Morocco", "ma"); map.put("Senegal", "sn"); map.put("Cameroon", "cm");
+        map.put("Egypt", "eg"); map.put("Ivory Coast", "ci"); map.put("Uruguay", "uy");
+        map.put("Colombia", "co"); map.put("Chile", "cl"); map.put("Mexico", "mx");
+        map.put("United States", "us"); map.put("Japan", "jp"); map.put("South Korea", "kr");
+        map.put("Australia", "au"); map.put("Serbia", "rs"); map.put("Switzerland", "ch");
+        map.put("Denmark", "dk"); map.put("Norway", "no"); map.put("Sweden", "se");
+        map.put("Turkey", "tr"); map.put("Greece", "gr"); map.put("Austria", "at");
+        map.put("Czech Republic", "cz"); map.put("Hungary", "hu"); map.put("Slovakia", "sk");
+        map.put("Romania", "ro"); map.put("Ukraine", "ua"); map.put("Russia", "ru");
+        map.put("Scotland", "gb-sct"); map.put("Wales", "gb-wls");
+        map.put("Republic of Ireland", "ie"); map.put("Algeria", "dz");
+        map.put("Tunisia", "tn"); map.put("Nigeria", "ng"); map.put("Ghana", "gh");
+        map.put("Congo DR", "cd"); map.put("Guinea", "gn"); map.put("Mali", "ml");
+        map.put("Ecuador", "ec"); map.put("Paraguay", "py"); map.put("Bolivia", "bo");
+        map.put("Peru", "pe"); map.put("Venezuela", "ve"); map.put("Saudi Arabia", "sa");
+        map.put("Iran", "ir"); map.put("Iraq", "iq"); map.put("Qatar", "qa");
+        map.put("China", "cn"); map.put("India", "in"); map.put("Canada", "ca");
+        map.put("Finland", "fi"); map.put("Albania", "al"); map.put("North Macedonia", "mk");
+        map.put("Slovenia", "si"); map.put("Georgia", "ge"); map.put("Israel", "il");
+        map.put("Iceland", "is"); map.put("Kosovo", "xk"); map.put("Montenegro", "me");
+        map.put("Bosnia", "ba"); map.put("Bulgaria", "bg"); map.put("Armenia", "am");
+        map.put("Azerbaijan", "az"); map.put("Kazakhstan", "kz"); map.put("New Zealand", "nz");
+        map.put("South Africa", "za"); map.put("Zambia", "zm"); map.put("Zimbabwe", "zw");
+        map.put("Angola", "ao"); map.put("Mozambique", "mz"); map.put("Tanzania", "tz");
+        map.put("Kenya", "ke"); map.put("Uganda", "ug"); map.put("Ethiopia", "et");
+        map.put("Burkina Faso", "bf"); map.put("Gabon", "ga"); map.put("Benin", "bj");
+        map.put("Togo", "tg"); map.put("Rwanda", "rw"); map.put("Libya", "ly");
+        map.put("Sudan", "sd"); map.put("Somalia", "so"); map.put("Congo", "cg");
+        map.put("Namibia", "na"); map.put("Botswana", "bw"); map.put("Madagascar", "mg");
+        map.put("Cape Verde", "cv"); map.put("Gambia", "gm"); map.put("Sierra Leone", "sl");
+        map.put("Costa Rica", "cr"); map.put("Panama", "pa"); map.put("Honduras", "hn");
+        map.put("Guatemala", "gt"); map.put("El Salvador", "sv"); map.put("Nicaragua", "ni");
+        map.put("Jamaica", "jm"); map.put("Haiti", "ht"); map.put("Cuba", "cu");
+        map.put("Dominican Republic", "do"); map.put("Trinidad and Tobago", "tt");
+        map.put("Curacao", "cw"); map.put("Syria", "sy"); map.put("Jordan", "jo");
+        map.put("Lebanon", "lb"); map.put("Palestine", "ps"); map.put("Bahrain", "bh");
+        map.put("Kuwait", "kw"); map.put("Oman", "om"); map.put("UAE", "ae");
+        map.put("Yemen", "ye"); map.put("Thailand", "th"); map.put("Vietnam", "vn");
+        map.put("Indonesia", "id"); map.put("Philippines", "ph"); map.put("Malaysia", "my");
+        map.put("Singapore", "sg"); map.put("Myanmar", "mm"); map.put("Cambodia", "kh");
+        map.put("Pakistan", "pk"); map.put("Bangladesh", "bd"); map.put("Sri Lanka", "lk");
+        map.put("Nepal", "np"); map.put("Afghanistan", "af"); map.put("Uzbekistan", "uz");
+        String code = map.get(country);
+        return code != null ? code : "";
+    }
+
+    /**
+     * Converts API-Football nationality adjective to country name for TheSportsDB lookup.
+     * e.g. "French" → "France", "Brazilian" → "Brazil"
+     */
+    private String nationalityToCountry(String nationality) {
+        if (nationality == null) return "";
+        // Common mappings
+        java.util.HashMap<String, String> map = new java.util.HashMap<>();
+        map.put("French", "France");
+        map.put("Brazilian", "Brazil");
+        map.put("Argentine", "Argentina");
+        map.put("Spanish", "Spain");
+        map.put("German", "Germany");
+        map.put("English", "England");
+        map.put("Italian", "Italy");
+        map.put("Portuguese", "Portugal");
+        map.put("Dutch", "Netherlands");
+        map.put("Belgian", "Belgium");
+        map.put("Croatian", "Croatia");
+        map.put("Polish", "Poland");
+        map.put("Moroccan", "Morocco");
+        map.put("Senegalese", "Senegal");
+        map.put("Cameroonian", "Cameroon");
+        map.put("Egyptian", "Egypt");
+        map.put("Ivorian", "Ivory Coast");
+        map.put("Uruguayan", "Uruguay");
+        map.put("Colombian", "Colombia");
+        map.put("Chilean", "Chile");
+        map.put("Mexican", "Mexico");
+        map.put("American", "United States");
+        map.put("Japanese", "Japan");
+        map.put("South Korean", "South Korea");
+        map.put("Australian", "Australia");
+        map.put("Serbian", "Serbia");
+        map.put("Swiss", "Switzerland");
+        map.put("Danish", "Denmark");
+        map.put("Norwegian", "Norway");
+        map.put("Swedish", "Sweden");
+        map.put("Turkish", "Turkey");
+        map.put("Greek", "Greece");
+        map.put("Austrian", "Austria");
+        map.put("Czech", "Czech Republic");
+        map.put("Hungarian", "Hungary");
+        map.put("Slovak", "Slovakia");
+        map.put("Romanian", "Romania");
+        map.put("Ukrainian", "Ukraine");
+        map.put("Russian", "Russia");
+        map.put("Scottish", "Scotland");
+        map.put("Welsh", "Wales");
+        map.put("Irish", "Republic of Ireland");
+        map.put("Algerian", "Algeria");
+        map.put("Tunisian", "Tunisia");
+        map.put("Nigerian", "Nigeria");
+        map.put("Ghanaian", "Ghana");
+        map.put("Congolese", "Congo DR");
+        map.put("Guinean", "Guinea");
+        map.put("Malian", "Mali");
+        map.put("Ecuadorian", "Ecuador");
+        map.put("Paraguayan", "Paraguay");
+        map.put("Bolivian", "Bolivia");
+        map.put("Peruvian", "Peru");
+        map.put("Venezuelan", "Venezuela");
+        map.put("Saudi Arabian", "Saudi Arabia");
+        map.put("Iranian", "Iran");
+        map.put("Iraqi", "Iraq");
+        map.put("Qatari", "Qatar");
+        map.put("Chinese", "China");
+        map.put("Indian", "India");
+        String mapped = map.get(nationality);
+        return mapped != null ? mapped : nationality;
+    }
+
+    private void showNationalTeam(View view, String name, String logoUrl) {
+        ((TextView) view.findViewById(R.id.tvNationalTeam)).setText(name);
+        ImageView iv = view.findViewById(R.id.ivNationalLogo);
+        if (!logoUrl.isEmpty()) {
+            Glide.with(iv.getContext()).load(logoUrl)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder).into(iv);
+        }
+        view.findViewById(R.id.cardNational).setVisibility(View.VISIBLE);
+    }
+
+    /** Returns true if the name looks like a club (has FC, United, City, etc.) */
+    private boolean isClubName(String name) {
+        if (name == null || name.isEmpty()) return false;
+        String lower = name.toLowerCase();
+        String[] clubKeywords = {"fc", " cf", " sc", "united", " city", "athletic",
+                "atletico", "olympique", "sporting", "dynamo", "club ",
+                "racing", "real ", "inter ", " ac ", " as ", "vfb", "vfl",
+                "borussia", "bayer ", "rovers", "wanderers", "hotspur",
+                "arsenal", "chelsea", "liverpool", "barcelona", "juventus",
+                "milan", "paris", "munich", "madrid"};
+        for (String kw : clubKeywords) {
+            if (lower.contains(kw)) return true;
+        }
+        return false;
     }
 
     private void showCards(View view) {
