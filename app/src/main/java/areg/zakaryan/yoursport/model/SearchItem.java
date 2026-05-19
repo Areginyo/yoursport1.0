@@ -13,7 +13,7 @@ public class SearchItem implements Parcelable {
     public String subtitle;
     public String logoUrl;
     public int id;
-    public String category; // "league", "team", "player"
+    public String category; 
 
     public SearchItem(String headerTitle) {
         this.type = TYPE_HEADER;

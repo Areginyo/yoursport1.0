@@ -74,8 +74,7 @@ public class TeamSeasonFragment extends Fragment {
         return cal.get(Calendar.MONTH) < 6 ? year - 1 : year;
     }
 
-    // ── Step 1: Discover all leagues the team plays in this season ─────────
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private void discoverLeagues() {
         int season = getSeason();
         ApiClient.getApiService().getLeaguesByTeam(teamItem.id, season)
@@ -91,8 +90,7 @@ public class TeamSeasonFragment extends Fragment {
                     List<Map<String, Object>> resp = (List<Map<String, Object>>) body.get("response");
                     if (resp == null || resp.isEmpty()) { showNoTables(); return; }
 
-                    // Collect all league ids + names
-                    List<Integer> ids   = new ArrayList<>();
+List<Integer> ids   = new ArrayList<>();
                     List<String>  names = new ArrayList<>();
 
                     for (Map<String, Object> entry : resp) {
@@ -106,8 +104,7 @@ public class TeamSeasonFragment extends Fragment {
 
                     if (ids.isEmpty()) { showNoTables(); return; }
 
-                    // ── Step 2: Load standings for all leagues in parallel ──
-                    List<LeagueTableItem> results = new ArrayList<>();
+List<LeagueTableItem> results = new ArrayList<>();
                     AtomicInteger pending = new AtomicInteger(ids.size());
 
                     for (int i = 0; i < ids.size(); i++) {
@@ -124,8 +121,7 @@ public class TeamSeasonFragment extends Fragment {
         });
     }
 
-    // ── Step 2: Load standings for one league, accumulate into results ─────
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private void loadStandings(int leagueId, String leagueName, int season,
                                List<LeagueTableItem> results, AtomicInteger pending) {
         ApiClient.getApiService().getStandings(leagueId, season)
@@ -148,23 +144,22 @@ public class TeamSeasonFragment extends Fragment {
                                 String name = str(league.get("name"));
                                 if (name.isEmpty()) name = leagueName;
 
-                                // standings is List<List<Map>>  (groups)
-                                List<?> outer = (List<?>) league.get("standings");
+List<?> outer = (List<?>) league.get("standings");
                                 if (outer != null && !outer.isEmpty()) {
-                                    // iterate ALL groups (e.g. Champions League has 8 groups)
+                                    
                                     for (Object groupObj : outer) {
                                         List<Map<String, Object>> group =
                                                 (List<Map<String, Object>>) groupObj;
                                         if (group == null || group.isEmpty()) continue;
 
                                         List<TablePosition> positions = new ArrayList<>();
-                                        String groupName = name; // default
+                                        String groupName = name; 
 
                                         for (Map<String, Object> row : group) {
-                                            // Extract group name from first row description
+                                            
                                             String desc = str(row.get("description"));
                                             if (!desc.isEmpty() && outer.size() > 1) {
-                                                // multi-group competition
+                                                
                                                 String groupStr = str(row.get("group"));
                                                 if (!groupStr.isEmpty()) groupName = name + " · " + groupStr;
                                             }
@@ -205,8 +200,7 @@ public class TeamSeasonFragment extends Fragment {
                     } catch (Exception ignored) {}
                 }
 
-                // When all leagues are done, show results
-                if (pending.decrementAndGet() == 0) {
+if (pending.decrementAndGet() == 0) {
                     if (!isAdded()) return;
                     progressBar.setVisibility(View.GONE);
                     if (!results.isEmpty()) {
@@ -248,8 +242,7 @@ public class TeamSeasonFragment extends Fragment {
         return "null".equals(s) ? "" : s;
     }
 
-    // ── Data classes ───────────────────────────────────────────────────────
-    public static class LeagueTableItem {
+public static class LeagueTableItem {
         public String leagueName, season;
         public List<TablePosition> positions;
 

@@ -7,7 +7,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,8 +74,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             vh.txtTitle.setText(item.title);
             vh.txtSubtitle.setText(item.subtitle != null ? item.subtitle : "");
 
-            // Show/hide checkbox based on selection mode
-            vh.checkbox.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
+vh.checkbox.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
             
             if (isSelectionMode) {
                 boolean isSelected = selectedItems.contains(item);

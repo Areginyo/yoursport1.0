@@ -43,8 +43,7 @@ public class TeamDetailActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Get team data from intent
-        Intent intent = getIntent();
+Intent intent = getIntent();
         if (intent != null && intent.hasExtra("team_item")) {
             teamItem = intent.getParcelableExtra("team_item");
         }

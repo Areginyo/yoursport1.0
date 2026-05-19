@@ -12,8 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SplashActYS extends AppCompatActivity {
 
-    // Длительность показа splash — 2.5 секунды
-    private static final int SPLASH_DURATION = 1500;
+private static final int SPLASH_DURATION = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,7 @@ public class SplashActYS extends AppCompatActivity {
             public void run() {
                 Intent i = new Intent(SplashActYS.this, MainActivity.class);
                 startActivity(i);
-                finish(); // закрыть splash чтобы нельзя было вернуться назад
+                finish(); 
             }
         }, SPLASH_DURATION);
     }

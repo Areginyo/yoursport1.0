@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,8 +28,7 @@
             android:textSize="15sp"
             android:visibility="gone" />
 
-        <!-- Personal Info Card -->
-        <LinearLayout
+<LinearLayout
             android:id="@+id/cardPersonal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,8 +37,7 @@
             android:layout_marginBottom="16dp"
             android:visibility="gone">
 
-            <!-- Section label -->
-            <TextView
+<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="PERSONAL INFO"
@@ -52,8 +50,7 @@
                 android:paddingTop="14dp"
                 android:paddingBottom="8dp" />
 
-            <!-- Age -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+<LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
                 android:orientation="horizontal" android:gravity="center_vertical"
                 android:paddingStart="16dp" android:paddingEnd="16dp">
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -66,8 +63,7 @@
             <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="#2A2A2A" android:layout_marginStart="16dp" />
 
-            <!-- Nationality -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+<LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
                 android:orientation="horizontal" android:gravity="center_vertical"
                 android:paddingStart="16dp" android:paddingEnd="16dp">
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -80,8 +76,7 @@
             <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="#2A2A2A" android:layout_marginStart="16dp" />
 
-            <!-- Position -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+<LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
                 android:orientation="horizontal" android:gravity="center_vertical"
                 android:paddingStart="16dp" android:paddingEnd="16dp">
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -94,8 +89,7 @@
             <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="#2A2A2A" android:layout_marginStart="16dp" />
 
-            <!-- Number -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+<LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
                 android:orientation="horizontal" android:gravity="center_vertical"
                 android:paddingStart="16dp" android:paddingEnd="16dp">
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -108,8 +102,7 @@
             <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="#2A2A2A" android:layout_marginStart="16dp" />
 
-            <!-- Height -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+<LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
                 android:orientation="horizontal" android:gravity="center_vertical"
                 android:paddingStart="16dp" android:paddingEnd="16dp">
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -122,8 +115,7 @@
             <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="#2A2A2A" android:layout_marginStart="16dp" />
 
-            <!-- Weight -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+<LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
                 android:orientation="horizontal" android:gravity="center_vertical"
                 android:paddingStart="16dp" android:paddingEnd="16dp">
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -137,8 +129,7 @@
 
         </LinearLayout>
 
-        <!-- Club Card -->
-        <LinearLayout
+<LinearLayout
             android:id="@+id/cardClub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -178,8 +169,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- National Team Card -->
-        <LinearLayout
+<LinearLayout
             android:id="@+id/cardNational"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

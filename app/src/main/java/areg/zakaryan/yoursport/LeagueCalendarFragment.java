@@ -141,13 +141,10 @@ public class LeagueCalendarFragment extends Fragment {
                     roundList.addAll(rounds);
                     buildRoundTabs();
 
-                    // Find the latest round that has been played (select last available)
-                    // We'll select the last round by default, user can scroll
-                    int defaultIndex = findCurrentRound(rounds);
+int defaultIndex = findCurrentRound(rounds);
                     selectRound(defaultIndex);
 
-                    // Scroll to selected round
-                    hsvRounds.post(() -> {
+hsvRounds.post(() -> {
                         if (!isAdded() || roundViews.isEmpty()) return;
                         View selected = roundViews.get(defaultIndex);
                         int scrollX = selected.getLeft() - hsvRounds.getWidth() / 2 + selected.getWidth() / 2;
@@ -170,10 +167,8 @@ public class LeagueCalendarFragment extends Fragment {
     }
 
     private int findCurrentRound(List<String> rounds) {
-        // Default to last round (most recent)
-        // A smarter approach would be to check which round has the latest matches
-        // For now, pick a middle-to-end round
-        if (rounds.size() <= 1) return 0;
+
+if (rounds.size() <= 1) return 0;
         return Math.max(0, rounds.size() - 1);
     }
 
@@ -186,7 +181,7 @@ public class LeagueCalendarFragment extends Fragment {
                     .inflate(R.layout.item_round_tab, llRounds, false);
 
             String roundName = roundList.get(i);
-            // Shorten display: "Regular Season - 1" -> "Round 1"
+            
             String displayName = formatRoundName(roundName);
             ((TextView) roundView.findViewById(R.id.tv_round_name)).setText(displayName);
 
@@ -200,7 +195,7 @@ public class LeagueCalendarFragment extends Fragment {
 
     private String formatRoundName(String raw) {
         if (raw == null) return "";
-        // API returns e.g. "Regular Season - 17"
+        
         if (raw.contains(" - ")) {
             String[] parts = raw.split(" - ");
             String num = parts[parts.length - 1].trim();
@@ -217,8 +212,7 @@ public class LeagueCalendarFragment extends Fragment {
     private void selectRound(int index) {
         if (index < 0 || index >= roundViews.size()) return;
 
-        // Deselect previous
-        if (selectedRoundIndex >= 0 && selectedRoundIndex < roundViews.size()) {
+if (selectedRoundIndex >= 0 && selectedRoundIndex < roundViews.size()) {
             roundViews.get(selectedRoundIndex).setBackgroundResource(R.drawable.bg_date_tab_normal);
         }
 
@@ -264,8 +258,7 @@ public class LeagueCalendarFragment extends Fragment {
                         if (item != null) matches.add(item);
                     }
 
-                    // Sort by date/time
-                    matches.sort((a, b) -> {
+matches.sort((a, b) -> {
                         String ta = a.time != null ? a.time : "";
                         String tb = b.time != null ? b.time : "";
                         return ta.compareTo(tb);
@@ -323,8 +316,7 @@ public class LeagueCalendarFragment extends Fragment {
         item.time    = str(fixture.get("date"));
         item.matchId = String.valueOf(numInt(fixture.get("id")));
 
-        // Extract date from ISO format
-        if (item.time != null && item.time.contains("T")) {
+if (item.time != null && item.time.contains("T")) {
             item.date = item.time.substring(0, 10);
         }
 
@@ -350,8 +342,7 @@ public class LeagueCalendarFragment extends Fragment {
         rvMatches.setVisibility(View.GONE);
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private Map<String, Object> castMap(Object obj) {
         return obj instanceof Map ? (Map<String, Object>) obj : null;
     }

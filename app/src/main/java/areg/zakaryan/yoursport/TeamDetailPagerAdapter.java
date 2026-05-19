@@ -31,6 +31,6 @@ public class TeamDetailPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 5; // News, Matches, Season, Squad, Transfers
+        return 5; 
     }
 }

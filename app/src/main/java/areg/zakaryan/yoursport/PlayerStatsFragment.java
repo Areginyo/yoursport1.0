@@ -54,7 +54,7 @@ public class PlayerStatsFragment extends Fragment {
                     List<Map<String,Object>> stats = (List<Map<String,Object>>) resp.get(0).get("statistics");
                     if (stats == null || stats.isEmpty()) { retry(view, pb, empty, season); return; }
                     pb.setVisibility(View.GONE);
-                    bind(view, pickPrimary(stats), season);
+                    bindAggregated(view, stats, season);
                 } catch (Exception e) { retry(view, pb, empty, season); }
             }
             @Override public void onFailure(Call<Object> c, Throwable t) {
@@ -69,45 +69,80 @@ public class PlayerStatsFragment extends Fragment {
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String,Object> pickPrimary(List<Map<String,Object>> stats) {
-        Map<String,Object> best = stats.get(0);
-        int bestApps = 0;
+    private void bindAggregated(View v, List<Map<String,Object>> stats, int season) {
+        // Sum all stats across every league
+        int goals=0, assists=0, shotsOn=0, shotsTotal=0, keyPasses=0;
+        int appearances=0, minutes=0;
+        int dribSuccess=0, dribAttempts=0;
+        int tackles=0, interceptions=0;
+        int duelsWon=0, duelsTotal=0;
+        int yellow=0, red=0;
+        // For pass accuracy: weighted average by appearances
+        double passAccWeighted=0; int passAccApps=0;
+
         for (Map<String,Object> s : stats) {
-            Map<String,Object> g = cm(s.get("games"));
-            int apps = g != null ? ai(g.get("appearences")) : 0;
-            if (apps > bestApps) { bestApps = apps; best = s; }
+            Map<String,Object> go = cm(s.get("goals")), sh = cm(s.get("shots")),
+                    pa = cm(s.get("passes")), ga = cm(s.get("games")),
+                    dr = cm(s.get("dribbles")), ta = cm(s.get("tackles")),
+                    du = cm(s.get("duels")), ca = cm(s.get("cards"));
+
+            goals       += gn(go,"total");       assists     += gn(go,"assists");
+            shotsOn     += gn(sh,"on");           shotsTotal  += gn(sh,"total");
+            keyPasses   += gn(pa,"key");
+
+            int app = gn(ga,"appearences");
+            appearances += app;
+            minutes     += gn(ga,"minutes");
+
+            // Pass accuracy: weight by appearances per league
+            if (pa != null) {
+                int acc = gn(pa,"accuracy"); // 0 if null
+                if (acc > 0 && app > 0) {
+                    passAccWeighted += acc * app;
+                    passAccApps += app;
+                }
+            }
+
+            dribSuccess  += gn(dr,"success");    dribAttempts += gn(dr,"attempts");
+            tackles      += gn(ta,"total");      interceptions += gn(ta,"interceptions");
+            duelsWon     += gn(du,"won");         duelsTotal   += gn(du,"total");
+            yellow       += gn(ca,"yellow");      red          += gn(ca,"red");
         }
-        return best;
-    }
 
-    @SuppressWarnings("unchecked")
-    private void bind(View v, Map<String,Object> s, int season) {
-        setVis(v, R.id.tvSeasonLabel, "SEASON " + season + "/" + (season+1));
-        Map<String,Object> go = cm(s.get("goals")), sh = cm(s.get("shots")),
-                pa = cm(s.get("passes")), ga = cm(s.get("games")),
-                dr = cm(s.get("dribbles")), ta = cm(s.get("tackles")),
-                du = cm(s.get("duels")), ca = cm(s.get("cards"));
+        setVis(v, R.id.tvSeasonLabel, "SEASON " + season + "/" + (season+1) + "  (All competitions)");
 
-        // Attack
-        set(v, R.id.tvGoals, n(go,"total")); set(v, R.id.tvAssists, n(go,"assists"));
-        set(v, R.id.tvShotsOn, n(sh,"on")); set(v, R.id.tvShotsTotal, n(sh,"total"));
-        set(v, R.id.tvKeyPasses, n(pa,"key"));
-        // Midfield
-        set(v, R.id.tvAppearances, n(ga,"appearences")); set(v, R.id.tvMinutes, n(ga,"minutes"));
-        String acc = pa != null ? sf(pa.get("accuracy")) : "";
-        set(v, R.id.tvPassAccuracy, acc.isEmpty() ? "—" : acc+"%");
-        int ds = dr!=null?ai(dr.get("success")):0, da = dr!=null?ai(dr.get("attempts")):0;
-        set(v, R.id.tvDribbles, da>0 ? ds+"/"+da : ""+ds);
-        // Defense
-        set(v, R.id.tvTackles, n(ta,"total")); set(v, R.id.tvInterceptions, n(ta,"interceptions"));
-        int dw=du!=null?ai(du.get("won")):0, dt=du!=null?ai(du.get("total")):0;
-        set(v, R.id.tvDuelsWon, dt>0 ? dw+"/"+dt : ""+dw);
-        set(v, R.id.tvYellow, n(ca,"yellow")); set(v, R.id.tvRed, n(ca,"red"));
+        set(v, R.id.tvGoals, ""+goals);          set(v, R.id.tvAssists, ""+assists);
+        set(v, R.id.tvShotsOn, ""+shotsOn);      set(v, R.id.tvShotsTotal, ""+shotsTotal);
+        set(v, R.id.tvKeyPasses, ""+keyPasses);
+
+        set(v, R.id.tvAppearances, ""+appearances); set(v, R.id.tvMinutes, ""+minutes);
+
+        if (passAccApps > 0) {
+            int avgAcc = (int) Math.round(passAccWeighted / passAccApps);
+            set(v, R.id.tvPassAccuracy, avgAcc + "%");
+        } else {
+            set(v, R.id.tvPassAccuracy, "—");
+        }
+
+        set(v, R.id.tvDribbles, dribAttempts > 0 ? dribSuccess+"/"+dribAttempts : ""+dribSuccess);
+
+        set(v, R.id.tvTackles, ""+tackles);      set(v, R.id.tvInterceptions, ""+interceptions);
+        set(v, R.id.tvDuelsWon, duelsTotal > 0 ? duelsWon+"/"+duelsTotal : ""+duelsWon);
+        set(v, R.id.tvYellow, ""+yellow);         set(v, R.id.tvRed, ""+red);
 
         for (int id : new int[]{R.id.cardAttack, R.id.cardMidfield, R.id.cardDefense,
                 R.id.lblAttack, R.id.lblMidfield, R.id.lblDefense, R.id.tvSeasonLabel}) {
             View w = v.findViewById(id); if (w!=null) w.setVisibility(View.VISIBLE);
         }
+    }
+
+    /** Get numeric value from a map, returning 0 for null/missing */
+    private int gn(Map<String,Object> m, String k) {
+        if (m == null) return 0;
+        Object o = m.get(k);
+        if (o == null || "null".equals(String.valueOf(o))) return 0;
+        if (o instanceof Number) return ((Number) o).intValue();
+        try { return (int) Double.parseDouble(String.valueOf(o)); } catch (Exception e) { return 0; }
     }
 
     private String n(Map<String,Object> m, String k) {

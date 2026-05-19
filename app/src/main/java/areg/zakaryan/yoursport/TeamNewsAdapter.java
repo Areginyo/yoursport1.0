@@ -50,9 +50,8 @@ public class TeamNewsAdapter extends RecyclerView.Adapter<TeamNewsAdapter.NewsVi
         holder.txtTitle.setText(item.title);
         holder.txtDescription.setText(item.description);
         holder.txtSource.setText(item.source);
-        
-        // Format date
-        if (item.publishedAt != null && !item.publishedAt.isEmpty()) {
+
+if (item.publishedAt != null && !item.publishedAt.isEmpty()) {
             try {
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
                 SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
@@ -64,9 +63,8 @@ public class TeamNewsAdapter extends RecyclerView.Adapter<TeamNewsAdapter.NewsVi
         } else {
             holder.txtDate.setText("");
         }
-        
-        // Load image
-        if (item.imageUrl != null && !item.imageUrl.isEmpty()) {
+
+if (item.imageUrl != null && !item.imageUrl.isEmpty()) {
             holder.imgNews.setVisibility(View.VISIBLE);
             Glide.with(holder.itemView.getContext())
                     .load(item.imageUrl)

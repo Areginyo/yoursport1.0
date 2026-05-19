@@ -91,15 +91,14 @@ public class Register extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
 
                         if (user != null) {
-                            // Set display name
+                            
                             UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(fullName)
                                     .build();
 
                             user.updateProfile(profileUpdate);
 
-                            // Send email verification
-                            user.sendEmailVerification()
+user.sendEmailVerification()
                                     .addOnCompleteListener(verifyTask -> {
                                         btnRegister.setEnabled(true);
 
@@ -108,8 +107,7 @@ public class Register extends AppCompatActivity {
                                                     "Account created successfully!\nA verification email has been sent to " + email,
                                                     Toast.LENGTH_LONG).show();
 
-                                            // Go back to login screen
-                                            startActivity(new Intent(Register.this, MainActivity.class));
+startActivity(new Intent(Register.this, MainActivity.class));
                                             finish();
                                         } else {
                                             Toast.makeText(this,

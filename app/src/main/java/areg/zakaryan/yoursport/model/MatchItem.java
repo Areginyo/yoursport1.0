@@ -22,7 +22,7 @@ public class MatchItem implements Parcelable {
     public String status;
     public boolean isLive = false;
     public String matchId;
-    /** Football API team ids (0 if unknown). */
+    
     public int homeTeamId;
     public int awayTeamId;
 

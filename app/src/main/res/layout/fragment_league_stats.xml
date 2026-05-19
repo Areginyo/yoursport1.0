@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,8 +29,7 @@
             android:textSize="16sp"
             android:visibility="gone" />
 
-        <!-- TOP SCORERS -->
-        <TextView
+<TextView
             android:id="@+id/lblTopScorers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,8 +50,7 @@
             android:layout_marginBottom="20dp"
             android:visibility="gone" />
 
-        <!-- TOP ASSISTS -->
-        <TextView
+<TextView
             android:id="@+id/lblTopAssists"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,8 +71,7 @@
             android:layout_marginBottom="20dp"
             android:visibility="gone" />
 
-        <!-- GOALS + ASSISTS -->
-        <TextView
+<TextView
             android:id="@+id/lblTopGA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,8 +92,7 @@
             android:layout_marginBottom="20dp"
             android:visibility="gone" />
 
-        <!-- YELLOW CARDS -->
-        <TextView
+<TextView
             android:id="@+id/lblYellowCards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,8 +113,7 @@
             android:layout_marginBottom="20dp"
             android:visibility="gone" />
 
-        <!-- RED CARDS -->
-        <TextView
+<TextView
             android:id="@+id/lblRedCards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

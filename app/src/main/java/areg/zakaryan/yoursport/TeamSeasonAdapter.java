@@ -62,8 +62,7 @@ public class TeamSeasonAdapter extends RecyclerView.Adapter<TeamSeasonAdapter.Le
         }
     }
 
-    // Adapter for table positions
-    static class TablePositionAdapter extends RecyclerView.Adapter<TablePositionAdapter.PositionViewHolder> {
+static class TablePositionAdapter extends RecyclerView.Adapter<TablePositionAdapter.PositionViewHolder> {
 
         private List<TeamSeasonFragment.TablePosition> positions;
 
@@ -93,9 +92,8 @@ public class TeamSeasonAdapter extends RecyclerView.Adapter<TeamSeasonAdapter.Le
             holder.txtGoalsAgainst.setText(String.valueOf(item.goalsAgainst));
             holder.txtGoalDiff.setText(item.goalDiff >= 0 ? "+" + item.goalDiff : String.valueOf(item.goalDiff));
             holder.txtPoints.setText(String.valueOf(item.points));
-            
-            // Load team logo
-            if (item.teamLogo != null && !item.teamLogo.isEmpty() && !item.teamLogo.equals("null")) {
+
+if (item.teamLogo != null && !item.teamLogo.isEmpty() && !item.teamLogo.equals("null")) {
                 Glide.with(holder.itemView.getContext())
                         .load(item.teamLogo)
                         .placeholder(R.drawable.ic_placeholder)
@@ -104,10 +102,8 @@ public class TeamSeasonAdapter extends RecyclerView.Adapter<TeamSeasonAdapter.Le
             } else {
                 holder.imgTeamLogo.setImageResource(R.drawable.ic_placeholder);
             }
-            
-            // Highlight current team if needed (you can pass the team ID to highlight)
-            // This would require passing the current team ID to the adapter
-        }
+
+}
 
         @Override
         public int getItemCount() {

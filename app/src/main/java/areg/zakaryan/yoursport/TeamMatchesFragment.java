@@ -130,8 +130,7 @@ public class TeamMatchesFragment extends Fragment {
                         Number fixtureId = (Number) fixture.get("id");
                         String date = String.valueOf(fixture.get("date"));
 
-                        // Status is a Map, not String
-                        Map<String, Object> statusMap = (Map<String, Object>) fixture.get("status");
+Map<String, Object> statusMap = (Map<String, Object>) fixture.get("status");
                         String status = statusMap != null ? String.valueOf(statusMap.get("short")) : "";
 
                         Map<String, Object> home = (Map<String, Object>) teams.get("home");
@@ -157,11 +156,10 @@ public class TeamMatchesFragment extends Fragment {
                         ));
                     }
 
-                    // Sort newest first by date string (ISO format sorts lexicographically)
-                    Collections.sort(items, (a, b) -> {
+Collections.sort(items, (a, b) -> {
                         String da = a.date != null ? a.date : "";
                         String db = b.date != null ? b.date : "";
-                        return db.compareTo(da); // descending
+                        return db.compareTo(da); 
                     });
 
                     if (!items.isEmpty()) {
@@ -195,8 +193,7 @@ public class TeamMatchesFragment extends Fragment {
         txtNoMatches.setText("No matches available for " + (teamItem != null ? teamItem.title : "this team"));
     }
 
-    // Match item data class
-    public static class TeamMatchItem {
+public static class TeamMatchItem {
         public int fixtureId;
         public String homeTeamName;
         public String awayTeamName;

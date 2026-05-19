@@ -38,8 +38,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         Log.d("MatchDetail", "Opened: " + match.homeTeam + " vs " + match.awayTeam);
 
-        // Шапка
-        TextView tvHome   = findViewById(R.id.tv_home_team);
+TextView tvHome   = findViewById(R.id.tv_home_team);
         TextView tvAway   = findViewById(R.id.tv_away_team);
         TextView tvScore  = findViewById(R.id.tv_score_big);
         TextView tvStatus = findViewById(R.id.tv_match_status);
@@ -54,9 +53,8 @@ public class MatchDetailActivity extends AppCompatActivity {
         if (ivHome != null && match.homeLogo != null && !match.homeLogo.isEmpty()) {
             Glide.with(this).load(match.homeLogo)
                     .placeholder(R.drawable.ic_placeholder).into(ivHome);
-            
-            // Add click listener for home team
-            ivHome.setOnClickListener(v -> {
+
+ivHome.setOnClickListener(v -> {
                 if (match.homeTeamId > 0) {
                     SearchItem homeTeamItem = new SearchItem(
                             SearchItem.TYPE_ITEM,
@@ -73,9 +71,8 @@ public class MatchDetailActivity extends AppCompatActivity {
         if (ivAway != null && match.awayLogo != null && !match.awayLogo.isEmpty()) {
             Glide.with(this).load(match.awayLogo)
                     .placeholder(R.drawable.ic_placeholder).into(ivAway);
-            
-            // Add click listener for away team
-            ivAway.setOnClickListener(v -> {
+
+ivAway.setOnClickListener(v -> {
                 if (match.awayTeamId > 0) {
                     SearchItem awayTeamItem = new SearchItem(
                             SearchItem.TYPE_ITEM,
@@ -90,14 +87,12 @@ public class MatchDetailActivity extends AppCompatActivity {
             });
         }
 
-        // Кнопка назад
-        ImageView btnBack = findViewById(R.id.btn_back);
+ImageView btnBack = findViewById(R.id.btn_back);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
         }
 
-        // ViewPager2 + TabLayout для вкладок
-        ViewPager2 viewPager = findViewById(R.id.view_pager);
+ViewPager2 viewPager = findViewById(R.id.view_pager);
         TabLayout tabLayout  = findViewById(R.id.tab_layout);
 
         if (viewPager != null && tabLayout != null) {

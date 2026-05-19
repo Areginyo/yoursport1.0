@@ -31,7 +31,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/** Сравнение по последним очным матчам + список (до 10). */
 public class MatchH2HFragment extends Fragment {
 
     private static final String ARG_MATCH = "match";
@@ -67,11 +66,10 @@ public class MatchH2HFragment extends Fragment {
 
         tvHeadline.setText(nz(match.homeTeam) + "  vs  " + nz(match.awayTeam));
 
-        // If we already have team IDs from the match, use them directly
-        if (match.homeTeamId > 0 && match.awayTeamId > 0) {
+if (match.homeTeamId > 0 && match.awayTeamId > 0) {
             fetchH2H(match.homeTeamId, match.awayTeamId, match);
         } else {
-            // Fallback: resolve via getMatchById
+            
             ApiClient.getApiService().getMatchById(match.matchId).enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
@@ -112,7 +110,7 @@ public class MatchH2HFragment extends Fragment {
                 }
                 tvFallback.setVisibility(View.GONE);
                 H2hStats s = aggregate(list, teamAId, teamBId, nz(match.homeTeam), nz(match.awayTeam));
-                try { renderComparison(s); } catch (Exception ex) { /* skip */ }
+                try { renderComparison(s); } catch (Exception ex) {  }
                 try { renderFixtureList(list, teamAId, teamBId, nz(match.homeTeam), nz(match.awayTeam)); } catch (Exception ex) { showFallback("Error displaying H2H data."); }
             }
 
@@ -132,7 +130,7 @@ public class MatchH2HFragment extends Fragment {
     }
 
     private static final class PairIds {
-        /** Порядок как в текущем матче: «домашняя» вкладка = teamA ~ home в выбранном фиксуре ответ getMatchById */
+        
         final int teamAId;
         final int teamBId;
 
@@ -343,7 +341,7 @@ public class MatchH2HFragment extends Fragment {
             barA.setProgressCompat(Math.max(1, percentAway), false);
             col.addView(barA);
         } catch (Exception e) {
-            // fallback: plain coloured views instead of progress bars
+            
             View vh = new View(requireContext());
             vh.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, dp(10)));
@@ -428,11 +426,11 @@ public class MatchH2HFragment extends Fragment {
             tvOutcome.setText(outcomeText);
 
             com.bumptech.glide.Glide.with(ctx)
-                    .load("https://media.api-sports.io/football/teams/" + fh + ".png")
+                    .load(th != null ? safe(th.get("logo")) : "")
                     .into(ivHomeLogo);
 
             com.bumptech.glide.Glide.with(ctx)
-                    .load("https://media.api-sports.io/football/teams/" + fa + ".png")
+                    .load(ta != null ? safe(ta.get("logo")) : "")
                     .into(ivAwayLogo);
 
             llMatches.addView(itemView);

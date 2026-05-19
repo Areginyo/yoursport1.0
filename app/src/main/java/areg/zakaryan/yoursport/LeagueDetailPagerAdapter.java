@@ -32,6 +32,6 @@ public class LeagueDetailPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3; // Calendar, Table, Statistics
+        return 3; 
     }
 }

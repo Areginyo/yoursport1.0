@@ -40,14 +40,13 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Try to get selectedItems from intent first
-        selectedItems = getIntent().getParcelableArrayListExtra("selected_items");
+selectedItems = getIntent().getParcelableArrayListExtra("selected_items");
 
         if (selectedItems != null && !selectedItems.isEmpty()) {
-            // Got items from intent (coming from SearchActivity)
+            
             initializeUI(savedInstanceState);
         } else {
-            // No items in intent — load from Firestore
+            
             selectedItems = new ArrayList<>();
             FavoritesManager.loadSelectedItems(items -> {
                 selectedItems = items;
@@ -62,8 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         if (isInitialized) return;
         isInitialized = true;
 
-        // Загружаем выбранные виды спорта из SportChoice (сохранённые)
-        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
         Set<String> savedSports = prefs.getStringSet("selected_sports", new HashSet<>());
 
         selectedSports.clear();
@@ -80,16 +78,14 @@ public class HomeActivity extends AppCompatActivity {
             currentSport = "Football";
         }
 
-        // Если по какой-то причине пусто — дефолт
-        if (selectedSports.isEmpty()) {
+if (selectedSports.isEmpty()) {
             selectedSports.add("Football");
             currentSport = "Football";
         } else if (!selectedSports.contains(currentSport)) {
             currentSport = selectedSports.get(0);
         }
 
-        // Настройка табов (количество = количеству выбранных в SportChoice)
-        rvSportTabs = findViewById(R.id.rv_sport_tabs);
+rvSportTabs = findViewById(R.id.rv_sport_tabs);
         rvSportTabs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         sportTabAdapter = new SportTabAdapter(selectedSports, sport -> {

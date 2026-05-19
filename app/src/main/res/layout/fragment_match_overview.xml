@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -13,16 +13,14 @@
         android:paddingTop="14dp"
         android:paddingBottom="24dp">
 
-        <!-- ===== LIVE EVENTS SECTION (shown when match is live or finished) ===== -->
-        <LinearLayout
+<LinearLayout
             android:id="@+id/ll_live_events_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
-            <!-- Header row: title + LIVE badge -->
-            <LinearLayout
+<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -60,8 +58,7 @@
 
             </LinearLayout>
 
-            <!-- Live Score Card -->
-            <androidx.cardview.widget.CardView
+<androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -75,8 +72,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- Score row -->
-                    <LinearLayout
+<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -121,8 +117,7 @@
 
                     </LinearLayout>
 
-                    <!-- Minute / Status indicator -->
-                    <TextView
+<TextView
                         android:id="@+id/tv_live_minute"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -132,14 +127,12 @@
                         android:paddingBottom="10dp"
                         android:visibility="gone" />
 
-                    <!-- Divider -->
-                    <View
+<View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#252525" />
 
-                    <!-- Events list -->
-                    <ProgressBar
+<ProgressBar
                         android:id="@+id/progress_events"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -169,9 +162,8 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-        <!-- ===== END LIVE EVENTS ===== -->
 
-        <TextView
+<TextView
             android:id="@+id/tv_recent_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -290,9 +282,7 @@
                 android:orientation="vertical"
                 android:paddingVertical="12dp">
 
-                <!-- Populated programmatically -->
-
-                <ProgressBar
+<ProgressBar
                     android:id="@+id/progress_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -54,8 +54,7 @@ public class MatchOverviewFragment extends Fragment {
     private TextView tvDetailsFallback;
     private TextView tvLeagueSmall;
 
-    // Live events views
-    private LinearLayout llLiveEventsSection;
+private LinearLayout llLiveEventsSection;
     private TextView tvLiveBadge;
     private TextView tvFinishedBadge;
     private TextView tvLiveHomeTeam;
@@ -174,8 +173,7 @@ public class MatchOverviewFragment extends Fragment {
         });
     }
 
-    /** Fill match.teamIds when API returns fuller data than list adapter. */
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private void enrichMatchFromFixture(Map<String, Object> m, MatchItem match) {
         Map<String, Object> teams = castMap(m.get("teams"));
         if (teams == null) return;
@@ -617,9 +615,7 @@ public class MatchOverviewFragment extends Fragment {
         return value == null || value.trim().isEmpty() ? "—" : value;
     }
 
-    // ==================== LIVE EVENTS ====================
-
-    private boolean isLiveStatus(String s) {
+private boolean isLiveStatus(String s) {
         if (s == null) return false;
         s = s.toUpperCase().trim();
         return s.equals("1H") || s.equals("2H") || s.equals("HT") || s.equals("ET")

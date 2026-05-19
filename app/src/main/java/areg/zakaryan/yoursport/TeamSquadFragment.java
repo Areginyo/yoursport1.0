@@ -35,9 +35,8 @@ public class TeamSquadFragment extends Fragment {
     private TextView txtNoSquad;
     private TeamSquadAdapter adapter;
 
-    // Loaded asynchronously
-    private final List<SquadItem> squadPlayers = new ArrayList<>();
-    private final AtomicInteger pending = new AtomicInteger(1); // squad only
+private final List<SquadItem> squadPlayers = new ArrayList<>();
+    private final AtomicInteger pending = new AtomicInteger(1); 
 
     public static TeamSquadFragment newInstance(SearchItem teamItem) {
         TeamSquadFragment fragment = new TeamSquadFragment();
@@ -82,8 +81,7 @@ public class TeamSquadFragment extends Fragment {
         return view;
     }
 
-    // ── Squad (API-Football players/squads) ────────────────────────────────
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private void loadSquad() {
         ApiClient.getApiService().getSquad(teamItem.id).enqueue(new Callback<Object>() {
             @Override
@@ -122,8 +120,7 @@ public class TeamSquadFragment extends Fragment {
         });
     }
 
-    // ── Coach (API-Football coachs endpoint) ───────────────────────────────
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private void loadCoach() {
         ApiClient.getApiService().getCoach(teamItem.id).enqueue(new Callback<Object>() {
             @Override
@@ -134,7 +131,7 @@ public class TeamSquadFragment extends Fragment {
                         Map<String, Object> body = (Map<String, Object>) response.body();
                         List<Map<String, Object>> resp = (List<Map<String, Object>>) body.get("response");
                         if (resp != null) {
-                            // Find the coach whose career has an ACTIVE entry (end == null) for this team
+                            
                             for (Map<String, Object> c : resp) {
                                 List<Map<String, Object>> career =
                                         (List<Map<String, Object>>) c.get("career");
@@ -164,8 +161,7 @@ public class TeamSquadFragment extends Fragment {
         });
     }
 
-    // ── Merge and display when squad call finishes ────────────────────────
-    private void checkDone() {
+private void checkDone() {
         if (!isAdded()) return;
         if (pending.decrementAndGet() > 0) return;
 
@@ -198,8 +194,7 @@ public class TeamSquadFragment extends Fragment {
         return "null".equals(s) ? "" : s;
     }
 
-    // ── Data class ─────────────────────────────────────────────────────────
-    public static class SquadItem {
+public static class SquadItem {
         public int id;
         public String name, position, number, photo, nationality, birthDate, height, weight;
         public int age;

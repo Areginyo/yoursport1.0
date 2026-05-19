@@ -39,8 +39,7 @@ public class LeagueStatsFragment extends Fragment {
     private TextView lblTopScorers, lblTopAssists, lblTopGA, lblYellowCards, lblRedCards;
     private LinearLayout llTopScorers, llTopAssists, llTopGA, llYellowCards, llRedCards;
 
-    // Store raw data for computing G+A
-    private List<PlayerStat> scorersData;
+private List<PlayerStat> scorersData;
     private List<PlayerStat> assistsData;
 
     public static LeagueStatsFragment newInstance(int leagueId) {
@@ -93,10 +92,9 @@ public class LeagueStatsFragment extends Fragment {
         tvEmpty.setVisibility(View.GONE);
 
         int season = getSeason();
-        AtomicInteger pending = new AtomicInteger(4); // scorers, assists, yellow, red
+        AtomicInteger pending = new AtomicInteger(4); 
 
-        // Top Scorers
-        ApiClient.getApiService().getTopScorers(leagueId, season).enqueue(new Callback<Object>() {
+ApiClient.getApiService().getTopScorers(leagueId, season).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!isAdded()) return;
@@ -110,8 +108,7 @@ public class LeagueStatsFragment extends Fragment {
             }
         });
 
-        // Top Assists
-        ApiClient.getApiService().getTopAssists(leagueId, season).enqueue(new Callback<Object>() {
+ApiClient.getApiService().getTopAssists(leagueId, season).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!isAdded()) return;
@@ -125,8 +122,7 @@ public class LeagueStatsFragment extends Fragment {
             }
         });
 
-        // Top Yellow Cards
-        ApiClient.getApiService().getTopYellowCards(leagueId, season).enqueue(new Callback<Object>() {
+ApiClient.getApiService().getTopYellowCards(leagueId, season).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!isAdded()) return;
@@ -140,8 +136,7 @@ public class LeagueStatsFragment extends Fragment {
             }
         });
 
-        // Top Red Cards
-        ApiClient.getApiService().getTopRedCards(leagueId, season).enqueue(new Callback<Object>() {
+ApiClient.getApiService().getTopRedCards(leagueId, season).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!isAdded()) return;
@@ -161,11 +156,9 @@ public class LeagueStatsFragment extends Fragment {
             if (!isAdded()) return;
             progressBar.setVisibility(View.GONE);
 
-            // Build Goals + Assists section from combined data
-            buildGoalsAndAssists();
+buildGoalsAndAssists();
 
-            // Check if everything is empty
-            boolean allEmpty = llTopScorers.getVisibility() == View.GONE
+boolean allEmpty = llTopScorers.getVisibility() == View.GONE
                     && llTopAssists.getVisibility() == View.GONE
                     && llTopGA.getVisibility() == View.GONE
                     && llYellowCards.getVisibility() == View.GONE
@@ -180,8 +173,7 @@ public class LeagueStatsFragment extends Fragment {
     private void buildGoalsAndAssists() {
         if (scorersData == null || scorersData.isEmpty()) return;
 
-        // Build a combined G+A list from scorers data (they have goals+assists)
-        List<PlayerStat> gaList = new ArrayList<>();
+List<PlayerStat> gaList = new ArrayList<>();
         for (PlayerStat ps : scorersData) {
             int ga = ps.goals + ps.assists;
             if (ga > 0) {
@@ -196,14 +188,13 @@ public class LeagueStatsFragment extends Fragment {
             }
         }
 
-        // Also merge assists data if they have goal info
-        if (assistsData != null) {
+if (assistsData != null) {
             for (PlayerStat as : assistsData) {
                 boolean found = false;
                 for (PlayerStat existing : gaList) {
                     if (existing.name.equals(as.name) && existing.teamName.equals(as.teamName)) {
                         found = true;
-                        // Update if assists data has better assist count
+                        
                         if (as.assists > existing.assists) {
                             existing.assists = as.assists;
                             existing.value = existing.goals + existing.assists;
@@ -224,11 +215,9 @@ public class LeagueStatsFragment extends Fragment {
             }
         }
 
-        // Sort by G+A descending
-        gaList.sort((a, b) -> Integer.compare(b.value, a.value));
+gaList.sort((a, b) -> Integer.compare(b.value, a.value));
 
-        // Take top 3
-        List<PlayerStat> top3 = gaList.subList(0, Math.min(3, gaList.size()));
+List<PlayerStat> top3 = gaList.subList(0, Math.min(3, gaList.size()));
         populateSection(lblTopGA, llTopGA, top3, "ga");
     }
 
@@ -250,8 +239,7 @@ public class LeagueStatsFragment extends Fragment {
             ((TextView) itemView.findViewById(R.id.tvPlayerName)).setText(ps.name);
             ((TextView) itemView.findViewById(R.id.tvPlayerTeam)).setText(ps.teamName);
 
-            // Stat value display
-            TextView tvValue = itemView.findViewById(R.id.tvStatValue);
+TextView tvValue = itemView.findViewById(R.id.tvStatValue);
             if ("ga".equals(type)) {
                 tvValue.setText(ps.goals + "G + " + ps.assists + "A");
                 tvValue.setTextSize(14);
@@ -259,15 +247,13 @@ public class LeagueStatsFragment extends Fragment {
                 tvValue.setText(String.valueOf(ps.value));
             }
 
-            // Color for card stats
-            if ("yellow".equals(type)) {
+if ("yellow".equals(type)) {
                 tvValue.setTextColor(0xFFFFEB3B);
             } else if ("red".equals(type)) {
                 tvValue.setTextColor(0xFFF44336);
             }
 
-            // Player photo
-            ImageView ivPhoto = itemView.findViewById(R.id.ivPlayerPhoto);
+ImageView ivPhoto = itemView.findViewById(R.id.ivPlayerPhoto);
             if (ps.photo != null && !ps.photo.isEmpty()) {
                 Glide.with(requireContext())
                         .load(ps.photo)
@@ -277,8 +263,7 @@ public class LeagueStatsFragment extends Fragment {
                         .into(ivPhoto);
             }
 
-            // Add divider between items
-            if (i < limit - 1) {
+if (i < limit - 1) {
                 View divider = new View(requireContext());
                 divider.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, 1));
@@ -291,9 +276,7 @@ public class LeagueStatsFragment extends Fragment {
         }
     }
 
-    // ── Parsing ──────────────────────────────────────────────────────────────
-
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private List<PlayerStat> parsePlayerStats(Response<Object> response, String statType) {
         List<PlayerStat> result = new ArrayList<>();
         if (!response.isSuccessful() || response.body() == null) return result;
@@ -380,9 +363,7 @@ public class LeagueStatsFragment extends Fragment {
         return result;
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
-
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private Map<String, Object> castMap(Object v) {
         return v instanceof Map ? (Map<String, Object>) v : null;
     }
@@ -400,14 +381,12 @@ public class LeagueStatsFragment extends Fragment {
         return "null".equals(s) ? "" : s;
     }
 
-    // ── Data class ───────────────────────────────────────────────────────────
-
-    static class PlayerStat {
+static class PlayerStat {
         String name;
         String photo;
         String teamName;
         int goals;
         int assists;
-        int value; // the displayed stat count
+        int value; 
     }
 }

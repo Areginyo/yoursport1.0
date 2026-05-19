@@ -29,13 +29,12 @@ public class TeamStatisticsFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView txtNoStatistics;
 
-    // Results
-    private TextView valPlayed, valWon, valDraw, valLost, valWinRate, valForm;
-    // Attack
+private TextView valPlayed, valWon, valDraw, valLost, valWinRate, valForm;
+    
     private TextView valGoalsFor, valGoalsPerGame, valBiggestWin, valPenalty, valFailedScore;
-    // Defense
+    
     private TextView valGoalsAgainst, valGoalsAgainstAvg, valCleanSheets, valBiggestLoss;
-    // Discipline
+    
     private TextView valYellow, valRed;
 
     public static TeamStatisticsFragment newInstance(SearchItem teamItem) {
@@ -99,8 +98,7 @@ public class TeamStatisticsFragment extends Fragment {
 
         int season = getSeason();
 
-        // Step 1: find a league ID from team fixtures
-        ApiClient.getApiService().getTeamMatches(teamItem.id, season).enqueue(new Callback<Object>() {
+ApiClient.getApiService().getTeamMatches(teamItem.id, season).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!isAdded()) return;
@@ -148,7 +146,7 @@ public class TeamStatisticsFragment extends Fragment {
 
     @SuppressWarnings("unchecked")
     private void populate(Map<String, Object> s) {
-        // ── Results ──────────────────────────────────────────────────────────
+        
         Map<String, Object> fix = castMap(s.get("fixtures"));
         int played = 0, wins = 0, draws = 0, loses = 0;
         if (fix != null) {
@@ -165,8 +163,7 @@ public class TeamStatisticsFragment extends Fragment {
         String form = str(s.get("form"));
         set(valForm, form.isEmpty() ? "—" : form);
 
-        // ── Attack ───────────────────────────────────────────────────────────
-        Map<String, Object> goals = castMap(s.get("goals"));
+Map<String, Object> goals = castMap(s.get("goals"));
         String goalsFor = "0", avgFor = "0";
         if (goals != null) {
             Map<String, Object> gf = castMap(goals.get("for"));
@@ -197,8 +194,7 @@ public class TeamStatisticsFragment extends Fragment {
         Map<String, Object> fts = castMap(s.get("failed_to_score"));
         set(valFailedScore, fts != null ? numInt(fts.get("total")) + " games" : "0 games");
 
-        // ── Defense ──────────────────────────────────────────────────────────
-        String goalsAgainst = "0", avgAgainst = "0";
+String goalsAgainst = "0", avgAgainst = "0";
         if (goals != null) {
             Map<String, Object> ga = castMap(goals.get("against"));
             if (ga != null) {
@@ -219,8 +215,7 @@ public class TeamStatisticsFragment extends Fragment {
         }
         set(valBiggestLoss, bigLoss);
 
-        // ── Discipline ───────────────────────────────────────────────────────
-        Map<String, Object> cards = castMap(s.get("cards"));
+Map<String, Object> cards = castMap(s.get("cards"));
         int yellow = 0, red = 0;
         if (cards != null) {
             yellow = sumCards(castMap(cards.get("yellow")));
@@ -232,8 +227,7 @@ public class TeamStatisticsFragment extends Fragment {
         txtNoStatistics.setVisibility(View.GONE);
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
-    private void set(TextView tv, String val) { if (tv != null) tv.setText(val); }
+private void set(TextView tv, String val) { if (tv != null) tv.setText(val); }
 
     private String combine(String a, String b) {
         boolean aEmpty = a == null || a.isEmpty() || "null".equals(a);

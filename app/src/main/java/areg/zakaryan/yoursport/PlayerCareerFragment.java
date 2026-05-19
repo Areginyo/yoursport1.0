@@ -70,8 +70,7 @@ public class PlayerCareerFragment extends Fragment {
                     List<Map<String, Object>> resp =
                             (List<Map<String, Object>>) body.get("response");
 
-                    // transfers list is inside response[0].transfers
-                    List<Map<String, Object>> transfers = null;
+List<Map<String, Object>> transfers = null;
                     if (resp != null && !resp.isEmpty()) {
                         transfers = (List<Map<String, Object>>) resp.get(0).get("transfers");
                     }
@@ -81,16 +80,14 @@ public class PlayerCareerFragment extends Fragment {
                         return;
                     }
 
-                    // Sort by date ascending (oldest first)
-                    List<Map<String, Object>> sorted = new ArrayList<>(transfers);
+List<Map<String, Object>> sorted = new ArrayList<>(transfers);
                     Collections.sort(sorted, (a, b2) -> {
                         long da = parseDate(sf(a.get("date")));
                         long db = parseDate(sf(b2.get("date")));
                         return Long.compare(da, db);
                     });
 
-                    // Deduplicate consecutive same-club entries
-                    List<CE> entries = new ArrayList<>();
+List<CE> entries = new ArrayList<>();
                     String lastClubId = "";
                     for (Map<String, Object> t : sorted) {
                         Map<String, Object> teams = cm(t.get("teams"));
@@ -103,7 +100,7 @@ public class PlayerCareerFragment extends Fragment {
                         String date   = formatDate(sf(t.get("date")));
 
                         if (name.isEmpty()) continue;
-                        // Skip duplicate consecutive club
+                        
                         if (clubId.equals(lastClubId)) continue;
                         lastClubId = clubId;
 
@@ -113,7 +110,7 @@ public class PlayerCareerFragment extends Fragment {
                     if (entries.isEmpty()) {
                         empty.setVisibility(View.VISIBLE);
                     } else {
-                        // Reverse so newest is first
+                        
                         Collections.reverse(entries);
                         rv.setAdapter(new CA(entries));
                     }
@@ -132,8 +129,7 @@ public class PlayerCareerFragment extends Fragment {
         });
     }
 
-    /** Parse ISO date string to epoch millis for sorting */
-    private long parseDate(String dateStr) {
+private long parseDate(String dateStr) {
         if (dateStr == null || dateStr.isEmpty()) return 0;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -142,8 +138,7 @@ public class PlayerCareerFragment extends Fragment {
         } catch (Exception e) { return 0; }
     }
 
-    /** Format "2019-07-01" → "Jul 2019" */
-    private String formatDate(String dateStr) {
+private String formatDate(String dateStr) {
         if (dateStr == null || dateStr.isEmpty()) return "—";
         try {
             SimpleDateFormat in  = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -153,14 +148,12 @@ public class PlayerCareerFragment extends Fragment {
         } catch (Exception e) { return dateStr; }
     }
 
-    // ── Data ────────────────────────────────────────────────────────────
-    static class CE {
+static class CE {
         String name, logo, date;
         CE(String n, String l, String d) { name = n; logo = l; date = d; }
     }
 
-    // ── Adapter ─────────────────────────────────────────────────────────
-    static class CA extends RecyclerView.Adapter<CA.VH> {
+static class CA extends RecyclerView.Adapter<CA.VH> {
         private final List<CE> items;
         CA(List<CE> i) { items = i; }
 

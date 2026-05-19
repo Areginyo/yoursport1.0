@@ -24,8 +24,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<MatchItem> items = new ArrayList<>();
 
-    // Listener для открытия детальной страницы
-    private OnMatchClickListener listener;
+private OnMatchClickListener listener;
     private OnTeamClickListener teamClickListener;
     private OnLeagueClickListener leagueClickListener;
 
@@ -80,15 +79,14 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof HeaderVH) {
             ((HeaderVH) holder).bind(item, leagueClickListener);
         } else {
-            ((MatchVH) holder).bind(item, listener, teamClickListener);   // Передаём listeners
+            ((MatchVH) holder).bind(item, listener, teamClickListener);   
         }
     }
 
     @Override
     public int getItemCount() { return items.size(); }
 
-    // ── Header ──────────────────────────────────────────────────────────
-    static class HeaderVH extends RecyclerView.ViewHolder {
+static class HeaderVH extends RecyclerView.ViewHolder {
         TextView tvLeague;
         ImageView ivLogo;
 
@@ -118,8 +116,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    // ── Match ────────────────────────────────────────────────────────────
-    static class MatchVH extends RecyclerView.ViewHolder {
+static class MatchVH extends RecyclerView.ViewHolder {
         ImageView ivHome, ivAway;
         TextView tvHome, tvAway, tvHomeScore, tvAwayScore, tvStatus, tvTime;
 
@@ -161,15 +158,13 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             loadImg(ivHome, m.homeLogo);
             loadImg(ivAway, m.awayLogo);
 
-            // Клик по всему элементу
-            itemView.setOnClickListener(v -> {
+itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onMatchClick(m);
                 }
             });
 
-            // Клик по логам команд
-            ivHome.setOnClickListener(v -> {
+ivHome.setOnClickListener(v -> {
                 if (teamClickListener != null && m.homeTeamId > 0) {
                     teamClickListener.onTeamClick(m.homeTeamId, m.homeTeam, m.homeLogo);
                 }
@@ -182,9 +177,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
         }
 
-        // ==================== ТВОИ ОРИГИНАЛЬНЫЕ МЕТОДЫ ====================
-
-        private String formatScore(String raw) {
+private String formatScore(String raw) {
             if (raw == null || raw.trim().isEmpty()) return "0";
             try {
                 double d = Double.parseDouble(raw.trim());

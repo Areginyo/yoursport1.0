@@ -36,7 +36,7 @@ public class TeamSquadAdapter extends RecyclerView.Adapter<TeamSquadAdapter.Squa
     }
 
     private List<SquadGroup> organizeSquadByPosition(List<TeamSquadFragment.SquadItem> squadItems) {
-        // Use a defined order for position groups
+        
         String[] positionOrder = {"Goalkeepers", "Defenders", "Midfielders", "Forwards", "Other"};
         Map<String, List<TeamSquadFragment.SquadItem>> grouped = new TreeMap<>();
         for (String pos : positionOrder) grouped.put(pos, new ArrayList<>());
@@ -88,8 +88,7 @@ public class TeamSquadAdapter extends RecyclerView.Adapter<TeamSquadAdapter.Squa
         }
     }
 
-    // Inner adapter for individual players
-    static class SquadPlayerAdapter extends RecyclerView.Adapter<SquadPlayerAdapter.PlayerViewHolder> {
+static class SquadPlayerAdapter extends RecyclerView.Adapter<SquadPlayerAdapter.PlayerViewHolder> {
 
         private final List<TeamSquadFragment.SquadItem> players;
         private final OnPlayerClickListener listener;
@@ -119,8 +118,7 @@ public class TeamSquadAdapter extends RecyclerView.Adapter<TeamSquadAdapter.Squa
                     player.nationality != null && !player.nationality.isEmpty()
                             ? player.nationality : "");
 
-            // Use age directly from API (API-Football provides age as int)
-            if (player.age > 0) {
+if (player.age > 0) {
                 holder.txtPlayerAge.setText(player.age + " y.o.");
             } else if (player.birthDate != null && !player.birthDate.isEmpty()) {
                 holder.txtPlayerAge.setText(player.birthDate);
@@ -128,8 +126,7 @@ public class TeamSquadAdapter extends RecyclerView.Adapter<TeamSquadAdapter.Squa
                 holder.txtPlayerAge.setText("--");
             }
 
-            // Height / weight
-            String hw = "";
+String hw = "";
             if (player.height != null && !player.height.isEmpty()) hw += player.height;
             if (player.weight != null && !player.weight.isEmpty()) {
                 if (!hw.isEmpty()) hw += " / ";
@@ -137,8 +134,7 @@ public class TeamSquadAdapter extends RecyclerView.Adapter<TeamSquadAdapter.Squa
             }
             holder.txtPlayerPhysical.setText(hw.isEmpty() ? "--" : hw);
 
-            // Photo
-            if (player.photo != null && !player.photo.isEmpty() && !player.photo.equals("null")) {
+if (player.photo != null && !player.photo.isEmpty() && !player.photo.equals("null")) {
                 Glide.with(holder.itemView.getContext())
                         .load(player.photo)
                         .placeholder(R.drawable.ic_placeholder)
@@ -149,8 +145,7 @@ public class TeamSquadAdapter extends RecyclerView.Adapter<TeamSquadAdapter.Squa
                 holder.imgPlayerPhoto.setImageResource(R.drawable.ic_placeholder);
             }
 
-            // Click → open player detail
-            if (listener != null) {
+if (listener != null) {
                 holder.itemView.setOnClickListener(v -> listener.onPlayerClick(player));
             }
         }

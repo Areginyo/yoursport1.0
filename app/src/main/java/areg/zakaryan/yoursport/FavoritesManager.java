@@ -14,20 +14,13 @@ import java.util.Map;
 
 import areg.zakaryan.yoursport.model.SearchItem;
 
-/**
- * Manages saving/loading selected items (favorites) to/from Firebase Firestore,
- * tied to the current user's account.
- */
 public class FavoritesManager {
 
     private static final String TAG = "FavoritesManager";
     private static final String COLLECTION_USERS = "users";
     private static final String FIELD_FAVORITES = "favorites";
 
-    /**
-     * Save selected items to Firestore under the current user's document.
-     */
-    public static void saveSelectedItems(ArrayList<SearchItem> items) {
+public static void saveSelectedItems(ArrayList<SearchItem> items) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Log.w(TAG, "No user logged in, cannot save favorites");
@@ -58,10 +51,7 @@ public class FavoritesManager {
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to save favorites", e));
     }
 
-    /**
-     * Load selected items from Firestore for the current user.
-     */
-    public static void loadSelectedItems(OnFavoritesLoadedListener listener) {
+public static void loadSelectedItems(OnFavoritesLoadedListener listener) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Log.w(TAG, "No user logged in, returning empty list");

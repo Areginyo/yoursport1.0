@@ -12,14 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Adapter kept for source compatibility.
- * TeamStatisticsFragment populates views directly; this adapter is unused at runtime.
- */
 public class TeamStatisticsAdapter extends RecyclerView.Adapter<TeamStatisticsAdapter.StatisticsViewHolder> {
 
-    // Self-contained data class – no longer nested in fragment
-    public static class StatItem {
+public static class StatItem {
         public String label;
         public String value;
         public StatItem(String label, String value) {

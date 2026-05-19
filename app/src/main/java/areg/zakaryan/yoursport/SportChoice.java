@@ -35,13 +35,12 @@ public class SportChoice extends AppCompatActivity {
             return insets;
         });
 
-        // Проверяем, был ли уже выбор
-        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
         boolean isOnboardingDone = prefs.getBoolean("onboarding_completed", false);
         boolean fromSettings = getIntent().getBooleanExtra("from_settings", false);
 
         if (isOnboardingDone && !fromSettings) {
-            // Уже выбирал → сразу в Home
+            
             startActivity(new Intent(this, HomeActivity.class));
             finish();
             return;
@@ -50,8 +49,7 @@ public class SportChoice extends AppCompatActivity {
         cbFootball = findViewById(R.id.checkboxFootballSch);
         btnChoose = findViewById(R.id.btnChoose);
 
-        // При повторном открытии из Settings показываем прошлый выбор спорта.
-        java.util.Set<String> savedSports = prefs.getStringSet("selected_sports", new HashSet<>());
+java.util.Set<String> savedSports = prefs.getStringSet("selected_sports", new HashSet<>());
         if (savedSports != null) {
             cbFootball.setChecked(savedSports.contains("Football"));
         }
@@ -65,19 +63,17 @@ public class SportChoice extends AppCompatActivity {
             ArrayList<String> selectedSports = new ArrayList<>();
             if (cbFootball.isChecked()) selectedSports.add("Football");
 
-            // Сохраняем выбранные виды спорта и флаг завершения
-            prefs.edit()
+prefs.edit()
                     .putStringSet("selected_sports", new HashSet<>(selectedSports))
                     .putBoolean("onboarding_completed", true)
                     .apply();
 
-            // Get pre-selected items from intent or load from Firestore
-            ArrayList<SearchItem> intentItems = getIntent().getParcelableArrayListExtra("selected_items");
+ArrayList<SearchItem> intentItems = getIntent().getParcelableArrayListExtra("selected_items");
 
             if (intentItems != null && !intentItems.isEmpty()) {
                 openSearchActivity(selectedSports, intentItems, fromSettings);
             } else {
-                // Load from Firestore
+                
                 FavoritesManager.loadSelectedItems(items -> {
                     if (!isFinishing()) {
                         openSearchActivity(selectedSports, items, fromSettings);

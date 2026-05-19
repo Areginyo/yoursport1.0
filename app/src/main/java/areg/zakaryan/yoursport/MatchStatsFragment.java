@@ -69,7 +69,7 @@ public class MatchStatsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                // Keep fallback stats when detailed endpoint is unavailable.
+                
             }
         });
 

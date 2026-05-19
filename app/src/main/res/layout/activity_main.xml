@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,14 +12,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- TOP LIME STRIPE 3dp -->
-        <View
+<View
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#AAFF00" />
 
-        <!-- HEADER -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -28,8 +26,7 @@
             android:paddingTop="44dp"
             android:paddingBottom="12dp">
 
-            <!-- eyebrow: — WELCOME BACK -->
-            <LinearLayout
+<LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -52,8 +49,7 @@
                     android:letterSpacing="0.28" />
             </LinearLayout>
 
-            <!-- Big title -->
-            <TextView
+<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LOG"
@@ -75,8 +71,7 @@
                 android:lineSpacingMultiplier="0.92"
                 android:letterSpacing="-0.02" />
 
-            <!-- Underline dashes -->
-            <LinearLayout
+<LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -98,8 +93,7 @@
 
         </LinearLayout>
 
-        <!-- FORM FIELDS -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -107,8 +101,7 @@
             android:paddingEnd="28dp"
             android:paddingTop="8dp">
 
-            <!-- Email label -->
-            <LinearLayout
+<LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -145,8 +138,7 @@
                 android:paddingEnd="0dp"
                 android:paddingBottom="8dp" />
 
-            <!-- Password label -->
-            <LinearLayout
+<LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -185,13 +177,11 @@
 
         </LinearLayout>
 
-        <!-- SPACER -->
-        <Space
+<Space
             android:layout_width="match_parent"
             android:layout_height="36dp" />
 
-        <!-- BUTTONS -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -212,8 +202,7 @@
                 android:backgroundTint="#AAFF00"
                 android:layout_marginBottom="14dp" />
 
-            <!-- OR separator -->
-            <LinearLayout
+<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

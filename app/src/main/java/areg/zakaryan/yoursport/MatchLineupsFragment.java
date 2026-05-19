@@ -110,7 +110,7 @@ public class MatchLineupsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                // Keep loading text
+                
             }
         });
 
@@ -167,7 +167,7 @@ public class MatchLineupsFragment extends Fragment {
         Map<String, Object> lineup1 = secondEl instanceof Map ? (Map<String, Object>) secondEl : null;
 
         if (byId != null) return byId;
-        /* fallback: если id матча не передан со списков */
+        
         return homeSide ? lineup0 : (lineup1 != null ? lineup1 : lineup0);
     }
 
@@ -453,8 +453,7 @@ public class MatchLineupsFragment extends Fragment {
         tvName.setLayoutParams(textLp);
         outer.addView(tvName);
 
-        // Tap → open player detail
-        if (player.playerId > 0) {
+if (player.playerId > 0) {
             final int pid = player.playerId;
             final String pname = player.name;
             final String ppos = player.position;

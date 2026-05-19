@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    // ==================== API-FOOTBALL (твой ключ) ====================
     private static final String BASE_URL = "https://v3.football.api-sports.io/";
     private static final String API_KEY = "f297ffaa96f0baa8d6e2c0c730f43e54";
 
@@ -44,7 +43,6 @@ public class ApiClient {
         return getClient().create(ApiService.class);
     }
 
-    // ==================== TheSportsDB ====================
     private static Retrofit retrofitTheSportsDB;
 
     public static TheSportsDBService getTheSportsDBService() {
@@ -57,7 +55,6 @@ public class ApiClient {
         return retrofitTheSportsDB.create(TheSportsDBService.class);
     }
 
-    // ==================== NewsAPI ====================
     private static Retrofit retrofitNews;
 
     public static NewsApiService getNewsApiService() {
@@ -70,26 +67,24 @@ public class ApiClient {
         return retrofitNews.create(NewsApiService.class);
     }
 
-    // ==================== BallDontLie (NBA) ====================
     private static Retrofit retrofitNba;
 
     public static NbaApiService getNbaApiService() {
         if (retrofitNba == null) {
             retrofitNba = new Retrofit.Builder()
-                    .baseUrl("https://api.balldontlie.io/v1/")
+                    .baseUrl("https://v1.basketball.api-sports.io/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofitNba.create(NbaApiService.class);
     }
 
-    // ==================== F1 ====================
     private static Retrofit retrofitF1;
 
     public static F1ApiService getF1ApiService() {
         if (retrofitF1 == null) {
             retrofitF1 = new Retrofit.Builder()
-                    .baseUrl("https://api.jolpi.ca/ergast/f1/")
+                    .baseUrl("https://v1.formula-1.api-sports.io/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

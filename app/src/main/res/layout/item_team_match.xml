@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,8 +8,7 @@
     android:background="#0D0D0D"
     android:paddingBottom="12dp">
 
-    <!-- League label -->
-    <TextView
+<TextView
         android:id="@+id/txtLeague"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,16 +20,14 @@
         android:textStyle="bold"
         android:letterSpacing="0.08" />
 
-    <!-- Teams row -->
-    <LinearLayout
+<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="12dp">
 
-        <!-- Home Team -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -57,8 +54,7 @@
 
         </LinearLayout>
 
-        <!-- Score / Time -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -84,8 +80,7 @@
 
         </LinearLayout>
 
-        <!-- Away Team -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

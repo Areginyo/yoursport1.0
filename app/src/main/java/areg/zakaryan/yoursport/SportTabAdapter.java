@@ -48,12 +48,10 @@ public class SportTabAdapter extends RecyclerView.Adapter<SportTabAdapter.ViewHo
         String sport = sports.get(position);
         holder.tvSport.setText(sport);
 
-        // Устанавливаем иконку (используй свои иконки)
-        int iconRes = getSportIcon(sport);
+int iconRes = getSportIcon(sport);
         holder.ivIcon.setImageResource(iconRes);
 
-        // Выделение выбранного
-        holder.itemView.setBackgroundResource(
+holder.itemView.setBackgroundResource(
                 position == selectedPosition ? R.drawable.tab_selected_bg : R.drawable.tab_unselected_bg
         );
 

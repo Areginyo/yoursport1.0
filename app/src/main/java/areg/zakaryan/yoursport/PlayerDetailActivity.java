@@ -64,8 +64,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
         TextView txtPos = findViewById(R.id.txtPlayerPosition);
         txtPos.setText(playerPosition != null ? playerPosition : "");
 
-        // Photo
-        if (playerPhoto == null || playerPhoto.isEmpty()) {
+if (playerPhoto == null || playerPhoto.isEmpty()) {
             playerPhoto = "https://media.api-sports.io/football/players/" + playerId + ".png";
         }
         ImageView imgPhoto = findViewById(R.id.imgPlayerPhoto);
@@ -76,12 +75,10 @@ public class PlayerDetailActivity extends AppCompatActivity {
                 .error(R.drawable.ic_placeholder)
                 .into(imgPhoto);
 
-        // Hide club row initially — will be updated from Overview fragment via activity method
-        findViewById(R.id.imgClubLogo).setVisibility(android.view.View.GONE);
+findViewById(R.id.imgClubLogo).setVisibility(android.view.View.GONE);
         findViewById(R.id.txtClubName).setVisibility(android.view.View.GONE);
 
-        // ViewPager
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
+TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager2 viewPager = findViewById(R.id.viewPager);
 
         PlayerDetailPagerAdapter adapter = new PlayerDetailPagerAdapter(this, playerId);
@@ -91,8 +88,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager, (tab, pos) -> tab.setText(tabs[pos])).attach();
     }
 
-    /** Called by PlayerOverviewFragment once it has club data */
-    public void updateClubInfo(String clubName, String clubLogo) {
+public void updateClubInfo(String clubName, String clubLogo) {
         ImageView imgClub  = findViewById(R.id.imgClubLogo);
         TextView  txtClub  = findViewById(R.id.txtClubName);
 

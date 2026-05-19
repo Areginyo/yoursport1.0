@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,14 +12,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- TOP LIME STRIPE -->
-        <View
+<View
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#AAFF00" />
 
-        <!-- HEADER -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -101,8 +99,7 @@
 
         </LinearLayout>
 
-        <!-- FORM FIELDS -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -261,8 +258,7 @@
 
         <Space android:layout_width="match_parent" android:layout_height="36dp" />
 
-        <!-- BUTTONS -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

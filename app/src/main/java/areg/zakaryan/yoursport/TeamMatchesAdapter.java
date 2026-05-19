@@ -51,13 +51,11 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
         holder.txtHomeTeam.setText(item.homeTeamName);
         holder.txtAwayTeam.setText(item.awayTeamName);
         holder.txtLeague.setText(item.leagueName);
-        
-        // Load team logos
-        loadLogo(holder.imgHomeTeam, item.homeTeamLogo);
+
+loadLogo(holder.imgHomeTeam, item.homeTeamLogo);
         loadLogo(holder.imgAwayTeam, item.awayTeamLogo);
 
-        // Set score or time based on status
-        String s = item.status != null ? item.status.toUpperCase() : "";
+String s = item.status != null ? item.status.toUpperCase() : "";
         switch (s) {
             case "FT": case "AET": case "PEN":
                 holder.txtScore.setText(item.homeGoals + " - " + item.awayGoals);
@@ -114,7 +112,7 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
             Date date = in.parse(dateStr.replace("Z", "+00:00"));
             return out.format(date);
         } catch (Exception e) {
-            // Try simpler format (date-only string like "2024-03-15")
+            
             try {
                 SimpleDateFormat in2 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                 SimpleDateFormat out2 = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);

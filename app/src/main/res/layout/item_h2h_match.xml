@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="12dp">
 
-    <!-- Header: Date and League -->
-    <TextView
+<TextView
         android:id="@+id/tv_h2h_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,15 +13,13 @@
         android:textColor="#AAAAAA"
         android:textSize="12sp" />
 
-    <!-- Match Content: Team A, Score, Team B -->
-    <LinearLayout
+<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <!-- Home Team -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,8 +43,7 @@
                 android:layout_height="24dp" />
         </LinearLayout>
 
-        <!-- Score -->
-        <TextView
+<TextView
             android:id="@+id/tv_h2h_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,8 +52,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Away Team -->
-        <LinearLayout
+<LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -83,8 +78,7 @@
 
     </LinearLayout>
 
-    <!-- Outcome / Subtext -->
-    <TextView
+<TextView
         android:id="@+id/tv_h2h_outcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

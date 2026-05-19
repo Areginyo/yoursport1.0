@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,14 +7,12 @@
     android:background="#181818"
     android:fitsSystemWindows="true">
 
-
-    <View
+<View
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="#AAFF00" />
 
-    <!-- HEADER -->
-    <LinearLayout
+<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -75,8 +73,7 @@
 
     </LinearLayout>
 
-    <!-- SEARCH BAR (лучше с TextInputLayout для Material 3) -->
-    <com.google.android.material.textfield.TextInputLayout
+<com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -105,8 +102,7 @@
             android:background="@null" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- ProgressBar для загрузки (лиги/команды/игроки) -->
-    <ProgressBar
+<ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,8 +111,7 @@
         android:visibility="gone"
         android:indeterminateTint="#AAFF00" />
 
-    <!-- RESULTS -->
-    <androidx.recyclerview.widget.RecyclerView
+<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSearch"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -126,8 +121,7 @@
         android:clipToPadding="false"
         android:scrollbars="vertical" />
 
-    <!-- CONTINUE BUTTON (MaterialButton) -->
-    <com.google.android.material.button.MaterialButton
+<com.google.android.material.button.MaterialButton
         android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="56dp"

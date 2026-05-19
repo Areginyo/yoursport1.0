@@ -43,49 +43,44 @@ public class MatchesFragment extends Fragment {
     private static final String ARG_CURRENT_SPORT  = "current_sport";
 
     private static final int[] TOP_LEAGUE_IDS = {
-            // Top 5 European Leagues
-            39,   // Premier League (England)
-            140,  // La Liga (Spain)
-            135,  // Serie A (Italy)
-            78,   // Bundesliga (Germany)
-            61,   // Ligue 1 (France)
+            
+            39,   
+            140,  
+            135,  
+            78,   
+            61,   
 
-            // Other Major Leagues
-            88,   // Eredivisie (Netherlands)
-            94,   // Primeira Liga (Portugal)
-            307,  // Saudi Pro League (Saudi Arabia)
+88,   
+            94,   
+            307,  
 
-            // European Cups
-            2,    // UEFA Champions League
-            3,    // UEFA Europa League
-            848,  // UEFA Conference League
+2,    
+            3,    
+            848,  
 
-            // International Tournaments
-            1,    // FIFA World Cup
-            4,    // UEFA European Championship
-            9,    // Copa América
-            7,    // Africa Cup of Nations
+1,    
+            4,    
+            9,    
+            7,    
 
-            // Domestic Cups
-            45,   // FA Cup (England)
-            48,   // EFL Cup (England)
-            143,  // Copa del Rey (Spain)
-            144,  // Supercopa de España (Spain)
-            137,  // Coppa Italia (Italy)
-            138,  // Supercoppa Italiana (Italy)
-            66,   // DFB-Pokal (Germany)
-            67,   // DFL-Supercup (Germany)
-            81,   // Coupe de France (France)
-            82,   // Trophée des Champions (France)
-            87,   // KNVB Cup (Netherlands)
-            564   // Taça de Portugal (Portugal)
+45,   
+            48,   
+            143,  
+            144,  
+            137,  
+            138,  
+            66,   
+            67,   
+            81,   
+            82,   
+            87,   
+            564   
     };
 
     private final Set<Integer> selectedLeagueIds = new HashSet<>();
     private final Map<Integer, Integer> selectedLeagueOrder = new HashMap<>();
 
-    // Favorites sets built from selectedItems
-    private final Set<Integer> favoriteTeamIds = new HashSet<>();
+private final Set<Integer> favoriteTeamIds = new HashSet<>();
     private final Set<Integer> favoriteLeagueIds = new HashSet<>();
 
     private static final List<String> FEMALE_COMPETITION_KEYWORDS = Collections.unmodifiableList(java.util.Arrays.asList(
@@ -123,8 +118,7 @@ public class MatchesFragment extends Fragment {
             "2nd team"
     ));
 
-
-    private List<MatchItem> filterMatchesByLeague(List<MatchItem> matches, int leagueId) {
+private List<MatchItem> filterMatchesByLeague(List<MatchItem> matches, int leagueId) {
         List<MatchItem> filtered = new ArrayList<>();
 
         for (MatchItem match : matches) {
@@ -154,11 +148,9 @@ public class MatchesFragment extends Fragment {
     private int selectedDateIndex = -1;
     private String selectedDate;
 
-    // Stores all loaded matches for current date (unfiltered)
-    private List<MatchItem> allMatchesForDate = new ArrayList<>();
+private List<MatchItem> allMatchesForDate = new ArrayList<>();
 
-    // League tab tracking
-    private static final int TAB_ALL = -1;
+private static final int TAB_ALL = -1;
     private static final int TAB_FAVORITES = -2;
     private int selectedTabId = TAB_ALL;
     private final List<View> leagueTabViews = new ArrayList<>();
@@ -200,15 +192,13 @@ public class MatchesFragment extends Fragment {
         rvMatches.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new MatchesAdapter();
 
-        // Клик по матчу
-        adapter.setOnMatchClickListener(match -> {
+adapter.setOnMatchClickListener(match -> {
             Intent intent = new Intent(requireContext(), MatchDetailActivity.class);
             intent.putExtra(MatchDetailActivity.EXTRA_MATCH, match);
             startActivity(intent);
         });
 
-        // Клик по команде
-        adapter.setOnTeamClickListener((teamId, teamName, teamLogo) -> {
+adapter.setOnTeamClickListener((teamId, teamName, teamLogo) -> {
             SearchItem teamItem = new SearchItem(
                     SearchItem.TYPE_ITEM,
                     teamName,
@@ -223,8 +213,7 @@ public class MatchesFragment extends Fragment {
             startActivity(intent);
         });
 
-        // Click on league header
-        adapter.setOnLeagueClickListener(header -> {
+adapter.setOnLeagueClickListener(header -> {
             Intent intent = new Intent(requireContext(), LeagueDetailActivity.class);
             intent.putExtra("league_id", header.leagueId);
             intent.putExtra("league_name", header.leagueName);
@@ -300,8 +289,7 @@ public class MatchesFragment extends Fragment {
         selectedDate = date;
         dateViews.get(index).setBackgroundResource(R.drawable.bg_date_tab_selected);
 
-        // Reset league tab selection when changing date
-        selectedTabId = TAB_ALL;
+selectedTabId = TAB_ALL;
 
         loadFootballMatches(date);
     }
@@ -332,27 +320,22 @@ public class MatchesFragment extends Fragment {
         });
     }
 
-    // ====================== LEAGUE TABS ======================
-
-    private void buildLeagueTabs(List<MatchItem> matches) {
+private void buildLeagueTabs(List<MatchItem> matches) {
         llLeagueTabs.removeAllViews();
         leagueTabViews.clear();
 
-        // "All" tab
-        View allTab = createLeagueTab("All", null, TAB_ALL);
+View allTab = createLeagueTab("All", null, TAB_ALL);
         llLeagueTabs.addView(allTab);
         leagueTabViews.add(allTab);
 
-        // "⭐ Favorites" tab (only show if user has favorites)
-        if (!favoriteTeamIds.isEmpty() || !favoriteLeagueIds.isEmpty()) {
+if (!favoriteTeamIds.isEmpty() || !favoriteLeagueIds.isEmpty()) {
             View favTab = createFavoritesTab();
             llLeagueTabs.addView(favTab);
             leagueTabViews.add(favTab);
         }
 
-        // Collect unique leagues from matches in order
-        LinkedHashMap<Integer, MatchItem> leagueMap = new LinkedHashMap<>();
-        // Sort matches by their league sort order first
+LinkedHashMap<Integer, MatchItem> leagueMap = new LinkedHashMap<>();
+        
         List<MatchItem> sorted = new ArrayList<>(matches);
         sorted.sort((a, b) -> Integer.compare(a.leagueSortOrder, b.leagueSortOrder));
 
@@ -369,8 +352,7 @@ public class MatchesFragment extends Fragment {
             leagueTabViews.add(tab);
         }
 
-        // Highlight current selection
-        updateLeagueTabsUI();
+updateLeagueTabsUI();
     }
 
     private View createLeagueTab(String name, String logoUrl, int tabId) {
@@ -469,8 +451,7 @@ public class MatchesFragment extends Fragment {
         return filtered;
     }
 
-    // ====================== ПАРСИНГ И РЕБУИЛД ======================
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private List<MatchItem> parseAllMatches(Object raw) {
         List<MatchItem> list = new ArrayList<>();
         if (!(raw instanceof Map)) return list;

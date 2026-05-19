@@ -40,9 +40,8 @@ public class TeamTransfersAdapter extends RecyclerView.Adapter<TeamTransfersAdap
         
         holder.txtPlayerName.setText(item.playerName);
         holder.txtLeagueName.setText(item.leagueName);
-        
-        // Format date
-        if (item.transferDate != null && !item.transferDate.isEmpty()) {
+
+if (item.transferDate != null && !item.transferDate.isEmpty()) {
             try {
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                 SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
@@ -54,24 +53,22 @@ public class TeamTransfersAdapter extends RecyclerView.Adapter<TeamTransfersAdap
         } else {
             holder.txtTransferDate.setText("");
         }
-        
-        // Set transfer type badge with app colors
-        if (item.isIncoming()) {
+
+if (item.isIncoming()) {
             holder.txtTransferType.setText("IN");
-            holder.txtTransferType.setBackgroundColor(0xFF4CAF50); // green
+            holder.txtTransferType.setBackgroundColor(0xFF4CAF50); 
             holder.txtTransferType.setTextColor(0xFF181818);
         } else if (item.isOutgoing()) {
             holder.txtTransferType.setText("OUT");
-            holder.txtTransferType.setBackgroundColor(0xFFF44336); // red
+            holder.txtTransferType.setBackgroundColor(0xFFF44336); 
             holder.txtTransferType.setTextColor(0xFFF0F0F0);
         } else {
             holder.txtTransferType.setText("LOAN");
-            holder.txtTransferType.setBackgroundColor(0xFFFF9800); // orange
+            holder.txtTransferType.setBackgroundColor(0xFFFF9800); 
             holder.txtTransferType.setTextColor(0xFF181818);
         }
-        
-        // Load player photo
-        if (item.playerPhoto != null && !item.playerPhoto.isEmpty()) {
+
+if (item.playerPhoto != null && !item.playerPhoto.isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(item.playerPhoto)
                     .placeholder(android.R.drawable.ic_menu_gallery)
@@ -80,9 +77,8 @@ public class TeamTransfersAdapter extends RecyclerView.Adapter<TeamTransfersAdap
         } else {
             holder.imgPlayerPhoto.setImageResource(android.R.drawable.ic_menu_gallery);
         }
-        
-        // Load team logos
-        if (item.fromTeamLogo != null && !item.fromTeamLogo.isEmpty()) {
+
+if (item.fromTeamLogo != null && !item.fromTeamLogo.isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(item.fromTeamLogo)
                     .placeholder(android.R.drawable.ic_menu_gallery)
@@ -104,9 +100,8 @@ public class TeamTransfersAdapter extends RecyclerView.Adapter<TeamTransfersAdap
         
         holder.txtFromTeam.setText(item.fromTeamName);
         holder.txtToTeam.setText(item.toTeamName);
-        
-        // Show loan indicator if applicable
-        if (item.isLoan()) {
+
+if (item.isLoan()) {
             holder.txtLoanIndicator.setVisibility(View.VISIBLE);
             holder.txtLoanIndicator.setText("LOAN");
         } else {

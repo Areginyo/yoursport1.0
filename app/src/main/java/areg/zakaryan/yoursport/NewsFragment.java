@@ -132,8 +132,7 @@ public class NewsFragment extends Fragment {
                         if (response.isSuccessful() && response.body() != null) {
                             List<NewsItem> newsList = convertToNewsItems(response.body());
 
-                            // Post-filter in favorites mode to ensure relevance
-                            if (isFavoritesMode) {
+if (isFavoritesMode) {
                                 newsList = filterByFavorites(newsList);
                             }
 
@@ -171,8 +170,7 @@ public class NewsFragment extends Fragment {
 
         if (names.isEmpty()) return null;
 
-        // NewsAPI supports OR operator; limit to avoid too long query
-        int maxTerms = Math.min(names.size(), 10);
+int maxTerms = Math.min(names.size(), 10);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < maxTerms; i++) {
             if (i > 0) sb.append(" OR ");
@@ -184,8 +182,7 @@ public class NewsFragment extends Fragment {
     private List<NewsItem> filterByFavorites(List<NewsItem> items) {
         if (selectedItems == null || selectedItems.isEmpty()) return items;
 
-        // Build lowercase name set for matching
-        Set<String> favoriteNames = new HashSet<>();
+Set<String> favoriteNames = new HashSet<>();
         for (SearchItem item : selectedItems) {
             if (item.type == SearchItem.TYPE_ITEM && item.title != null) {
                 favoriteNames.add(item.title.trim().toLowerCase(Locale.ENGLISH));

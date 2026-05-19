@@ -96,7 +96,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTeamClicked(SearchItem teamItem) {
-                // Open team details activity
+                
                 Intent intent = new Intent(SearchActivity.this, TeamDetailActivity.class);
                 intent.putExtra("team_item", teamItem);
                 startActivity(intent);
@@ -137,20 +137,17 @@ public class SearchActivity extends AppCompatActivity {
                 return;
             }
 
-            // Сохраняем флаг завершения онбординга
-            SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
             prefs.edit()
                     .putBoolean("onboarding_completed", true)
                     .apply();
 
-            // Save favorites to Firestore (tied to user account)
-            FavoritesManager.saveSelectedItems(selectedItems);
+FavoritesManager.saveSelectedItems(selectedItems);
 
             Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
             intent.putParcelableArrayListExtra("selected_items", selectedItems);
 
-            // Очищаем весь стек: SportChoice и SearchActivity больше не будут открываться
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             startActivity(intent);
             finish();
@@ -203,8 +200,7 @@ public class SearchActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Show leagues immediately — no more sequential team loading
-                    runOnUiThread(() -> {
+runOnUiThread(() -> {
                         showInitialList();
                         progressBar.setVisibility(View.GONE);
                     });
@@ -229,8 +225,7 @@ public class SearchActivity extends AppCompatActivity {
         String lowerQuery = query.toLowerCase();
         List<SearchItem> results = new ArrayList<>();
 
-        // Leagues (filter from cached list)
-        List<SearchItem> filteredLeagues = new ArrayList<>();
+List<SearchItem> filteredLeagues = new ArrayList<>();
         for (SearchItem item : allLeagues) {
             if (item.title != null && item.title.toLowerCase().contains(lowerQuery)) {
                 filteredLeagues.add(item);
@@ -241,8 +236,7 @@ public class SearchActivity extends AppCompatActivity {
             results.addAll(filteredLeagues);
         }
 
-        // Search teams via API-Football (1 API call instead of 30+)
-        ApiClient.getApiService().searchTeamsByName(query).enqueue(new Callback<Object>() {
+ApiClient.getApiService().searchTeamsByName(query).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 List<SearchItem> teams = new ArrayList<>();
@@ -280,14 +274,13 @@ public class SearchActivity extends AppCompatActivity {
                     results.addAll(teams);
                 }
 
-                // Now search players via TheSportsDB
-                searchPlayers(query, results);
+searchPlayers(query, results);
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 Log.e("Search", "Team search failed", t);
-                // Continue with player search even if team search fails
+                
                 searchPlayers(query, results);
             }
         });

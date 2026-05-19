@@ -83,8 +83,7 @@ public class TeamTransfersFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         txtNoTransfers.setVisibility(View.GONE);
 
-        // Use direct team transfers endpoint (no league/season needed)
-        ApiClient.getApiService().getTransfersByTeam(teamItem.id).enqueue(new Callback<Object>() {
+ApiClient.getApiService().getTransfersByTeam(teamItem.id).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!isAdded()) return;
@@ -99,13 +98,7 @@ public class TeamTransfersFragment extends Fragment {
 
                     List<TransferItem> transferItems = new ArrayList<>();
 
-                    /*
-                     * API-Football transfers response format:
-                     * response[]: { player: {id, name}, update: "...",
-                     *   transfers: [{ date, type, teams: { in: {id,name,logo}, out: {id,name,logo} } }]
-                     * }
-                     */
-                    for (Map<String, Object> playerEntry : resp) {
+for (Map<String, Object> playerEntry : resp) {
                         Map<String, Object> player = (Map<String, Object>) playerEntry.get("player");
                         if (player == null) continue;
 
@@ -130,14 +123,12 @@ public class TeamTransfersFragment extends Fragment {
                             String fromTeamName = teamOut != null ? str(teamOut.get("name")) : "";
                             String fromTeamLogo = teamOut != null ? str(teamOut.get("logo")) : "";
 
-                            // Determine direction relative to our team
-                            int toId = teamIn != null ? numInt(teamIn.get("id")) : 0;
+int toId = teamIn != null ? numInt(teamIn.get("id")) : 0;
                             boolean isIncoming = (toId == teamItem.id);
                             String direction = isIncoming ? "in" : "out";
                             if (type.toLowerCase().contains("loan")) direction = type;
 
-                            // Only include recent transfers (last 2 years)
-                            if (isRecent(date, 24)) {
+if (isRecent(date, 24)) {
                                 transferItems.add(new TransferItem(
                                         playerId, playerName, "",
                                         fromTeamName, fromTeamLogo,
@@ -148,11 +139,9 @@ public class TeamTransfersFragment extends Fragment {
                         }
                     }
 
-                    // Sort by date descending (newest first)
-                    Collections.sort(transferItems, (a, b) -> b.transferDate.compareTo(a.transferDate));
+Collections.sort(transferItems, (a, b) -> b.transferDate.compareTo(a.transferDate));
 
-                    // Limit to 30 most recent
-                    if (transferItems.size() > 30) {
+if (transferItems.size() > 30) {
                         transferItems = new ArrayList<>(transferItems.subList(0, 30));
                     }
 
@@ -203,8 +192,7 @@ public class TeamTransfersFragment extends Fragment {
         txtNoTransfers.setText("No recent transfers for " + (teamItem != null ? teamItem.title : "this team"));
     }
 
-    // Transfer item data class
-    public static class TransferItem {
+public static class TransferItem {
         public int playerId;
         public String playerName;
         public String playerPhoto;

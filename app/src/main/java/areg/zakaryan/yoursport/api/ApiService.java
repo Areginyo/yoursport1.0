@@ -63,8 +63,7 @@ public interface ApiService {
     @GET("leagues")
     Call<Object> getLeaguesByTeam(@Query("team") int teamId, @Query("season") int season);
 
-    // ── League Detail endpoints ──────────────────────────────────────────
-    @GET("fixtures/rounds")
+@GET("fixtures/rounds")
     Call<Object> getRounds(@Query("league") int leagueId, @Query("season") int season);
 
     @GET("fixtures")
@@ -82,8 +81,7 @@ public interface ApiService {
     @GET("players/topredcards")
     Call<Object> getTopRedCards(@Query("league") int leagueId, @Query("season") int season);
 
-    // ── Player Detail endpoints ──────────────────────────────────────────
-    @GET("players")
+@GET("players")
     Call<Object> getPlayerProfile(@Query("id") int playerId, @Query("season") int season);
 
     @GET("players/profiles")

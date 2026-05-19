@@ -132,8 +132,7 @@ public class TeamNewsFragment extends Fragment {
         txtNoNews.setText("No news available for " + (teamItem != null ? teamItem.title : "this team"));
     }
 
-    // News item data class
-    public static class TeamNewsItem {
+public static class TeamNewsItem {
         public String title;
         public String description;
         public String imageUrl;

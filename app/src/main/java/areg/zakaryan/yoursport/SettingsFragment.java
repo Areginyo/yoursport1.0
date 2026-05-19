@@ -76,8 +76,7 @@ public class SettingsFragment extends Fragment {
 
     private void setupListeners() {
 
-        // Change Selection — load latest from Firestore, then open SportChoice
-        btnChangeSelection.setOnClickListener(v -> {
+btnChangeSelection.setOnClickListener(v -> {
             FavoritesManager.loadSelectedItems(items -> {
                 if (!isAdded()) return;
                 Intent intent = new Intent(requireActivity(), SportChoice.class);
@@ -87,13 +86,11 @@ public class SettingsFragment extends Fragment {
             });
         });
 
-        // ================== LOG OUT ==================
-        btnLogout.setOnClickListener(v -> {
-            // Выход из Firebase аккаунта
+btnLogout.setOnClickListener(v -> {
+            
             FirebaseAuth.getInstance().signOut();
 
-            // Сбрасываем флаги
-            SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", 0);
+SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", 0);
             prefs.edit()
                     .putBoolean("is_logged_in", false)
                     .putBoolean("is_onboarding_completed", false)
@@ -101,17 +98,15 @@ public class SettingsFragment extends Fragment {
 
             Toast.makeText(requireContext(), "You have been logged out", Toast.LENGTH_SHORT).show();
 
-            // Открываем MainActivity (экран логина)
-            Intent intent = new Intent(requireActivity(), MainActivity.class);
+Intent intent = new Intent(requireActivity(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
             requireActivity().finishAffinity();
         });
 
-        // ================== RESET APP ==================
-        btnResetApp.setOnClickListener(v -> {
-            // Выход из аккаунта + полный сброс
+btnResetApp.setOnClickListener(v -> {
+            
             FirebaseAuth.getInstance().signOut();
 
             SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", 0);

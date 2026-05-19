@@ -52,11 +52,10 @@ public class PlayerOverviewFragment extends Fragment {
         return view;
     }
 
-    /** API-Football season = start year of the season (e.g. 2025 = 2025/26) */
-    private int currentSeason() {
+private int currentSeason() {
         int yr = Calendar.getInstance().get(Calendar.YEAR);
-        int mo = Calendar.getInstance().get(Calendar.MONTH); // 0-indexed
-        // Seasons typically start in July-August; before July use previous year
+        int mo = Calendar.getInstance().get(Calendar.MONTH); 
+        
         return mo < 6 ? yr - 1 : yr;
     }
 
@@ -78,7 +77,7 @@ public class PlayerOverviewFragment extends Fragment {
                                     (List<Map<String, Object>>) body.get("response");
 
                             if (resp == null || resp.isEmpty()) {
-                                // Try one season back
+                                
                                 tryPreviousSeason(view, pb, tvEmpty, season);
                                 return;
                             }
@@ -91,11 +90,11 @@ public class PlayerOverviewFragment extends Fragment {
 
                             if (player != null) bindPersonal(view, player, stats);
                             if (stats != null && !stats.isEmpty()) {
-                                // Pick primary league stat (most appearances)
+                                
                                 Map<String, Object> primaryStat = pickPrimaryStat(stats);
                                 bindClub(view, primaryStat);
                             }
-                            // National team from player nationality field
+                            
                             if (player != null) findNationalTeam(view, player, stats);
 
                         } catch (Exception e) {
@@ -128,8 +127,7 @@ public class PlayerOverviewFragment extends Fragment {
         setText(view, R.id.tvHeight, strOrDash(player.get("height")));
         setText(view, R.id.tvWeight, strOrDash(player.get("weight")));
 
-        // Position and Number come from statistics[0].games in API-Football
-        String position = "—";
+String position = "—";
         String number = "—";
         if (stats != null && !stats.isEmpty()) {
             Map<String, Object> primaryStat = pickPrimaryStat(stats);
@@ -145,8 +143,7 @@ public class PlayerOverviewFragment extends Fragment {
         setText(view, R.id.tvNumber, number);
     }
 
-    /** Pick the stat entry with most appearances (= primary domestic league) */
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     private Map<String, Object> pickPrimaryStat(List<Map<String, Object>> stats) {
         Map<String, Object> best = stats.get(0);
         int bestApps = 0;
@@ -195,9 +192,8 @@ public class PlayerOverviewFragment extends Fragment {
     @SuppressWarnings("unchecked")
     private void findNationalTeam(View view, Map<String, Object> player,
                                    List<Map<String, Object>> stats) {
-        // 1) First try: find a real national team entry in stats
-        //    (entry where team name has NO club keywords AND league is international/cup)
-        for (Map<String, Object> stat : stats) {
+
+for (Map<String, Object> stat : stats) {
             Map<String, Object> league = castMap(stat.get("league"));
             Map<String, Object> team   = castMap(stat.get("team"));
             if (league == null || team == null) continue;
@@ -226,26 +222,23 @@ public class PlayerOverviewFragment extends Fragment {
             }
         }
 
-        // 2) Fallback: use nationality field from player object
-        String nationality = safe(player.get("nationality"));
+String nationality = safe(player.get("nationality"));
         if (!nationality.isEmpty()) {
-            // Convert adjective ("French") → country name ("France") → ISO code ("fr")
+            
             String countryName = nationalityToCountry(nationality);
             String isoCode = countryToIsoCode(countryName);
-            // flagcdn.com provides free country flag images by ISO code
+            
             String flagUrl = isoCode.isEmpty() ? ""
-                    : "https://flagcdn.com/w80/" + isoCode.toLowerCase() + ".png";
+                    : "https://flagcdn.com/w160/" + isoCode + ".png";
             showNationalTeam(view, countryName, flagUrl);
             showCards(view);
             return;
         }
 
-        // No national team found at all
-        showCards(view);
+showCards(view);
     }
 
-    /** Maps country name → ISO 3166-1 alpha-2 code for flagcdn.com */
-    private String countryToIsoCode(String country) {
+private String countryToIsoCode(String country) {
         java.util.HashMap<String, String> map = new java.util.HashMap<>();
         map.put("France", "fr"); map.put("Brazil", "br"); map.put("Argentina", "ar");
         map.put("Spain", "es"); map.put("Germany", "de"); map.put("England", "gb-eng");
@@ -297,13 +290,9 @@ public class PlayerOverviewFragment extends Fragment {
         return code != null ? code : "";
     }
 
-    /**
-     * Converts API-Football nationality adjective to country name for TheSportsDB lookup.
-     * e.g. "French" → "France", "Brazilian" → "Brazil"
-     */
-    private String nationalityToCountry(String nationality) {
+private String nationalityToCountry(String nationality) {
         if (nationality == null) return "";
-        // Common mappings
+        
         java.util.HashMap<String, String> map = new java.util.HashMap<>();
         map.put("French", "France");
         map.put("Brazilian", "Brazil");
@@ -380,8 +369,7 @@ public class PlayerOverviewFragment extends Fragment {
         view.findViewById(R.id.cardNational).setVisibility(View.VISIBLE);
     }
 
-    /** Returns true if the name looks like a club (has FC, United, City, etc.) */
-    private boolean isClubName(String name) {
+private boolean isClubName(String name) {
         if (name == null || name.isEmpty()) return false;
         String lower = name.toLowerCase();
         String[] clubKeywords = {"fc", " cf", " sc", "united", " city", "athletic",

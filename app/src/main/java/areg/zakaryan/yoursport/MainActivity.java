@@ -91,10 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    /**
-     * Checks if the user's email is verified
-     */
-    private void checkEmailVerification(FirebaseUser user) {
+private void checkEmailVerification(FirebaseUser user) {
         if (user.isEmailVerified()) {
             Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
             goToHome();
@@ -103,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     "Please verify your email first.\nCheck your inbox (including spam folder).",
                     Toast.LENGTH_LONG).show();
 
-            // Optional: Resend verification email
-            user.sendEmailVerification()
+user.sendEmailVerification()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(this, "Verification email sent again.", Toast.LENGTH_SHORT).show();
